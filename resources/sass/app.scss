@@ -6,3 +6,10 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.wrap-alert {
+    position: fixed;
+    top: 100px;
+    right: 100px;
+    opacity: 0;
+}

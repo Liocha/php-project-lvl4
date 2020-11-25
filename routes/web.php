@@ -17,9 +17,7 @@ use App\Http\Controllers\TaskStatusController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::resource('task_statuses', TaskStatusController::class)->parameters([
-    'task_status' => 'id'
-]);
+Route::resource('task_statuses', TaskStatusController::class);
 
 Auth::routes();
 

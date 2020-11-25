@@ -10903,3 +10903,10 @@ a.text-dark:focus {
   }
 }
 
+.wrap-alert {
+  position: fixed;
+  top: 100px;
+  right: 100px;
+  opacity: 0;
+}
+

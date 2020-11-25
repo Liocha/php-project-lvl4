@@ -15,6 +15,7 @@
             }
         </style>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        
     </head>
     <body>
         <div id="app">
@@ -75,6 +76,12 @@
                     </div>
                 </div>
             </nav>
+        <div class="wrap-alert" id="my-alert-wrap">
+                <div class="row flex-row-reverse">
+                    @include('flash::message')
+                </div>
+        </div>
         @yield('content')    
         </div>
     </body>
+    <script src="{{ asset('js/app.js') }}" defer></script>

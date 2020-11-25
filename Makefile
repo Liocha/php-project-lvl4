@@ -33,7 +33,7 @@ lint:
 	composer exec phpcs -v
 
 lint-fix:
-	composer phpcbf
+	composer exec phpcbf
 
 compose:
 	docker-compose up

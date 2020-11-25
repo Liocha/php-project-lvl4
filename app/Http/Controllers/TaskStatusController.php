@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\TaskStatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TaskStatusController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(TaskStatus::class, 'task_status');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -36,10 +42,17 @@ class TaskStatusController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'name' => 'required'
         ]);
+
+        if ($validator->fails()) {
+            flash('Поле name не должно быть пустым!')->error();
+            return redirect()->back();
+        }
+
         TaskStatus::create($request->all());
+        flash('Таск успешно добавлен!')->success();
         return redirect()->route('task_statuses.index');
     }
 
@@ -51,7 +64,7 @@ class TaskStatusController extends Controller
      */
     public function show(TaskStatus $taskStatus)
     {
-        //
+        return "Заглушка";
     }
 
     /**
@@ -60,9 +73,9 @@ class TaskStatusController extends Controller
      * @param  \App\Models\TaskStatus  $taskStatus
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(TaskStatus $taskStatus)
     {
-        $taskStatus = TaskStatus::find($id);
+        $taskStatus = TaskStatus::find($taskStatus->id);
         return view('taskStatuses.edit', compact('taskStatus'));
     }
 
@@ -73,14 +86,20 @@ class TaskStatusController extends Controller
      * @param  \App\Models\TaskStatus  $taskStatus
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, TaskStatus $taskStatus)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'name' => 'required'
         ]);
-        $taskStatus = TaskStatus::find($id);
-        $taskStatus->update($request->all());
 
+        if ($validator->fails()) {
+            flash('Поле name не должно быть пустым!')->error();
+            return redirect()->back();
+        }
+
+        $taskStatus = TaskStatus::find($taskStatus->id);
+        $taskStatus->update($request->all());
+        flash('Таск был успешно изменен!')->success();
         return redirect()->route('task_statuses.index');
     }
 
@@ -90,9 +109,10 @@ class TaskStatusController extends Controller
      * @param  \App\Models\TaskStatus  $taskStatus
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(TaskStatus $taskStatus)
     {
-        TaskStatus::find($id)->delete();
+        TaskStatus::find($taskStatus->id)->delete();
+        flash('Таск был успешно удален!')->success();
         return redirect()->route('task_statuses.index');
     }
 }

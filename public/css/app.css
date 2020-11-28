@@ -10910,3 +10910,10 @@ a.text-dark:focus {
   opacity: 0;
 }
 
+.invalid-feedback {
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #e3342f;
+}
+

@@ -32,7 +32,7 @@
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link " href="#">tasks</a></li>
+                                <a class="nav-link " href="{{route('task.index')}}">tasks</a></li>
                             <li class="nav-item">
                                 <a class="nav-link " href="{{route('task_statuses.index')}}">taskStatuses</a>
                             </li>
@@ -44,8 +44,8 @@
                         <ul class="navbar-nav ml-auto">
                             <!-- Authentication Links -->
                             @guest
-                                  @if (Route::has('login'))
-                                      <li class="nav-item">
+                                @if (Route::has('login'))
+                                   <li class="nav-item">
                                         <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                     </li>
                                 @endif

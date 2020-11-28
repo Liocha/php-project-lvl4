@@ -28,7 +28,7 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    {
         $taskStatuses = TaskStatus::all();
         $users = User::all();
         return view('task.create', compact('users', 'taskStatuses'));
@@ -41,7 +41,7 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{       
+    {
         $request->validate([
             'name' => 'required|string|unique:App\Models\Task',
             'description' => 'nullable|string',
@@ -88,7 +88,6 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        
     }
 
     /**

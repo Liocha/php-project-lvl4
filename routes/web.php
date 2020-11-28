@@ -22,5 +22,3 @@ Route::resource('task_statuses', TaskStatusController::class);
 Route::resource('task', TaskController::class);
 
 Auth::routes();
-
-

@@ -3,7 +3,7 @@
 @section('content')
 <main class="container py-4">
     <h1 class="mb-5">Add New Task</h1>
-    <form method="post" action="{{ route('task.store')}}" accept-charset="UTF-8" class="w-50">
+    <form method="post" action="{{ route('tasks.store')}}" accept-charset="UTF-8" class="w-50">
         @csrf
         <div class="form-group">
             <label for="name">Name</label>

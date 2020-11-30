@@ -14,9 +14,9 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Created At</th>
-                @canany(['delete', 'update'], App\Models\taskStatus::class)
+                @auth
                 <th>Actions</th>
-                @endcanany
+                @endauth
             </tr>
         </thead>
         @foreach ($taskStatuses as $taskStatus)    
@@ -24,20 +24,16 @@
             <td>{{$taskStatus->id}}</td>
             <td>{{$taskStatus->name}}</td>
             <td>{{$taskStatus->created_at}}</td>
-            @canany(['delete', 'update'], App\Models\taskStatus::class)
+            @auth
                 <td> 
-                    @can('delete', App\Models\taskStatus::class )
                     <form method="post" action="{{ route('task_statuses.destroy', $taskStatus) }}" class="d-inline-block">
                         @method('delete')
                         @csrf
                         <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-danger btn-sm"> Remove </button >
                     </form>
-                    @endcan    
-                    @can('update', App\Models\taskStatus::class)
                     <a class="btn btn-secondary btn-sm" href="{{ route('task_statuses.edit', $taskStatus)}}"> Edit </a > 
-                    @endcan
                 </td>
-            @endcanany
+            @endauth
         </tr>
         @endforeach
     </table>

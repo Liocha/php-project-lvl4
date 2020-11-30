@@ -32,7 +32,7 @@
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link " href="{{route('task.index')}}">tasks</a></li>
+                                <a class="nav-link " href="{{route('tasks.index')}}">tasks</a></li>
                             <li class="nav-item">
                                 <a class="nav-link " href="{{route('task_statuses.index')}}">taskStatuses</a>
                             </li>

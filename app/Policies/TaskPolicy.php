@@ -2,11 +2,12 @@
 
 namespace App\Policies;
 
-use App\Models\TaskStatus;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
-class TaskStatusPolicy
+class TaskPolicy
 {
     use HandlesAuthorization;
 
@@ -25,10 +26,10 @@ class TaskStatusPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\TaskStatus  $taskStatus
+     * @param  \App\Models\Task  $task
      * @return mixed
      */
-    public function view(User $user, TaskStatus $taskStatus)
+    public function view(?User $user, Task $task)
     {
         return true;
     }
@@ -48,10 +49,10 @@ class TaskStatusPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\TaskStatus  $taskStatus
+     * @param  \App\Models\Task  $task
      * @return mixed
      */
-    public function update(User $user, TaskStatus $taskStatus)
+    public function update(User $user, Task $task)
     {
         return true;
     }
@@ -60,34 +61,38 @@ class TaskStatusPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
+     * @param  \App\Models\Task  $task
      * @return mixed
      */
-    public function delete(User $user, TaskStatus $taskStatus)
+    public function delete(User $user, Task $task)
     {
-        return true;
+        if ($task->created_by_id == $user->id) {
+            return true;
+        }
+        return false;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\TaskStatus  $taskStatus
+     * @param  \App\Models\Task  $task
      * @return mixed
      */
-    public function restore(User $user, TaskStatus $taskStatus)
+    public function restore(User $user, Task $task)
     {
-        return true;
+        return false;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\TaskStatus  $taskStatus
+     * @param  \App\Models\Task  $task
      * @return mixed
      */
-    public function forceDelete(User $user, TaskStatus $taskStatus)
+    public function forceDelete(User $user, Task $task)
     {
-        return true;
+        return false;
     }
 }

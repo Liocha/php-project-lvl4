@@ -8,7 +8,10 @@
         @csrf
         <div class="form-group">
             <label for="name">{{$taskStatus->name}}</label>
-            <input class="form-control" name="name" type="text" value="{{$taskStatus->name}}" id="name">
+            <input class="form-control @error('name') is-invalid @enderror" name="name" type="text" value="{{$taskStatus->name}}" id="name">
+            @error('name')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
         <input class="btn btn-primary" type="submit" value="Update">
     </form>

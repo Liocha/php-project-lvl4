@@ -6,11 +6,16 @@ use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+
+
+    public function __construct()
+    {
+        $this->authorizeResource(Task::class, 'task');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -52,8 +57,8 @@ class TaskController extends Controller
         $task->created_by_id = Auth::id();
         $task->fill($request->all());
         $task->save();
-        flash('Таск успешно добавлен!')->success();
-        return redirect()->route('task.index');
+        flash(__('messages.flash.success.added', ['obj' => 'Task']))->success();
+        return redirect()->route('tasks.index');
     }
 
     /**
@@ -76,7 +81,9 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        $taskStatuses = TaskStatus::all();
+        $users = User::all();
+        return view('task.edit', compact('task', 'taskStatuses', 'users'));
     }
 
     /**
@@ -88,6 +95,17 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
+        $request->validate([
+            'name' => 'required|string|unique:App\Models\Task',
+            'description' => 'nullable|string',
+            'status_id' => 'required|exists:App\Models\TaskStatus,id'
+        ]);
+
+        $task->fill($request->all());
+        $task->save();
+
+        flash(__('messages.flash.success.changed', ['obj' => 'Task']))->success();
+        return redirect()->route('tasks.index');
     }
 
     /**
@@ -98,6 +116,8 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task->delete();
+        flash(__('messages.flash.success.deleted', ['obj' => 'Task']))->success();
+        return redirect()->route('tasks.index');
     }
 }

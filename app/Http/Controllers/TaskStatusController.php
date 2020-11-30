@@ -42,17 +42,12 @@ class TaskStatusController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required'
+        $request->validate([
+            'name' => 'required|string|unique:App\Models\TaskStatus',
         ]);
 
-        if ($validator->fails()) {
-            flash('Поле name не должно быть пустым!')->error();
-            return redirect()->back();
-        }
-
         TaskStatus::create($request->all());
-        flash('Таск успешно добавлен!')->success();
+        flash(__('messages.flash.success.added', ['obj' => 'Status']))->success();
         return redirect()->route('task_statuses.index');
     }
 
@@ -75,7 +70,6 @@ class TaskStatusController extends Controller
      */
     public function edit(TaskStatus $taskStatus)
     {
-        $taskStatus = TaskStatus::find($taskStatus->id);
         return view('taskStatuses.edit', compact('taskStatus'));
     }
 
@@ -88,18 +82,13 @@ class TaskStatusController extends Controller
      */
     public function update(Request $request, TaskStatus $taskStatus)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required'
+        $request->validate([
+            'name' => 'required|string|unique:App\Models\TaskStatus',
         ]);
 
-        if ($validator->fails()) {
-            flash('Поле name не должно быть пустым!')->error();
-            return redirect()->back();
-        }
-
-        $taskStatus = TaskStatus::find($taskStatus->id);
-        $taskStatus->update($request->all());
-        flash('Таск был успешно изменен!')->success();
+        $taskStatus->fill($request->all());
+        $taskStatus->save();
+        flash(__('messages.flash.success.changed', ['obj' => 'Status']))->success();
         return redirect()->route('task_statuses.index');
     }
 
@@ -111,8 +100,8 @@ class TaskStatusController extends Controller
      */
     public function destroy(TaskStatus $taskStatus)
     {
-        TaskStatus::find($taskStatus->id)->delete();
-        flash('Таск был успешно удален!')->success();
+        $taskStatus->delete();
+        flash(__('messages.flash.success.deleted', ['obj' => 'Status']))->success();
         return redirect()->route('task_statuses.index');
     }
 }

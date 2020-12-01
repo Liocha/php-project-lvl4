@@ -59,7 +59,7 @@ class TaskStatusController extends Controller
      */
     public function show(TaskStatus $taskStatus)
     {
-        return "Заглушка";
+        //не используется
     }
 
     /**

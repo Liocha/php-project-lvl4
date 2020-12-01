@@ -25,4 +25,9 @@ class Task extends Model
     {
         return $this->hasOne('App\Models\User', 'id', 'assigned_to_id');
     }
+
+    public function labels()
+    {
+        return $this->belongsToMany('App\Models\Label', 'task_label');
+    }
 }

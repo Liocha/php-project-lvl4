@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
+use App\Models\Label;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,7 +37,8 @@ class TaskController extends Controller
     {
         $taskStatuses = TaskStatus::all();
         $users = User::all();
-        return view('task.create', compact('users', 'taskStatuses'));
+        $labels = Label::all();
+        return view('task.create', compact('users', 'taskStatuses', 'labels'));
     }
 
     /**
@@ -57,6 +59,7 @@ class TaskController extends Controller
         $task->created_by_id = Auth::id();
         $task->fill($request->all());
         $task->save();
+        $task->labels()->attach($request->input('labels'));
         flash(__('messages.flash.success.added', ['obj' => 'Task']))->success();
         return redirect()->route('tasks.index');
     }
@@ -70,7 +73,8 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         $statusName = TaskStatus::where('id', $task->status_id)->value('name');
-        return view('task.show', compact('task', 'statusName'));
+        $labels = $task->labels()->orderBy('name')->get();
+        return view('task.show', compact('task', 'statusName', 'labels'));
     }
 
     /**
@@ -80,10 +84,12 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Task $task)
-    {
+    {   
         $taskStatuses = TaskStatus::all();
+        $labels = Label::all();
         $users = User::all();
-        return view('task.edit', compact('task', 'taskStatuses', 'users'));
+        $taskLables = $task->labels->modelKeys();
+        return view('task.edit', compact('task', 'taskStatuses', 'users', 'labels', 'taskLables'));
     }
 
     /**
@@ -103,6 +109,7 @@ class TaskController extends Controller
 
         $task->fill($request->all());
         $task->save();
+        $task->labels()->sync($request->input('labels'));
 
         flash(__('messages.flash.success.changed', ['obj' => 'Task']))->success();
         return redirect()->route('tasks.index');

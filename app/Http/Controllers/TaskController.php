@@ -81,7 +81,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        $statusName = TaskStatus::where('id', $task->status_id)->value('name');
+        $statusName = $task->status()->value('name');
         $labels = $task->labels()->orderBy('name')->get();
         return view('task.show', compact('task', 'statusName', 'labels'));
     }

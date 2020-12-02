@@ -67,7 +67,8 @@ class TaskController extends Controller
         $task->created_by_id = Auth::id();
         $task->fill($request->all());
         $task->save();
-        $task->labels()->attach($request->input('labels'));
+        $labels = collect($request->input('labels'))->whereNotNull()->all();
+        $task->labels()->sync($labels);
         flash(__('messages.flash.success.added', ['obj' => 'Task']))->success();
         return redirect()->route('tasks.index');
     }

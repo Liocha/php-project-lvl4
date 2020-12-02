@@ -7,8 +7,8 @@
         @method('patch')
         @csrf
         <div class="form-group">
-            <label for="name">{{$taskStatus->name}}</label>
-            <input class="form-control @error('name') is-invalid @enderror" name="name" type="text" value="{{$taskStatus->name}}" id="name">
+            <label for="name">Name</label>
+            <input class="form-control @error('name') is-invalid @enderror" name="name" type="text" value="{{ old('name', $taskStatus->name) }}" id="name">
             @error('name')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TaskStatus;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class TaskStatusController extends Controller
 {
@@ -83,7 +83,11 @@ class TaskStatusController extends Controller
     public function update(Request $request, TaskStatus $taskStatus)
     {
         $request->validate([
-            'name' => 'required|string|unique:App\Models\TaskStatus',
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('task_statuses')->ignore($taskStatus)
+            ]
         ]);
 
         $taskStatus->fill($request->all());
@@ -100,6 +104,10 @@ class TaskStatusController extends Controller
      */
     public function destroy(TaskStatus $taskStatus)
     {
+        if ($taskStatus->task()->count() != 0) {
+            flash(__('messages.flash.error.deleted', ['obj' => 'Status']))->error();
+            return redirect()->back();
+        }
         $taskStatus->delete();
         flash(__('messages.flash.success.deleted', ['obj' => 'Status']))->success();
         return redirect()->route('task_statuses.index');

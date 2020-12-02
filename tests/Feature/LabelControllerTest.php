@@ -28,6 +28,8 @@ class LabelControllerTest extends TestCase
     {
         $response = $this->get(route('labels.index'));
         $response->assertSessionHasNoErrors();
+        $response->assertSeeText($this->label->name);
+        $response->assertSeeText($this->label->description);
         $response->assertOk();
     }
 
@@ -71,6 +73,8 @@ class LabelControllerTest extends TestCase
         $response = $this->actingAs($this->user)
                          ->get(route('labels.index'));
         $response->assertSessionHasNoErrors();
+        $response->assertSeeText($this->label->name);
+        $response->assertSeeText($this->label->description);
         $response->assertOk();
     }
 

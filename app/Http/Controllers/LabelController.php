@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Label;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class LabelController extends Controller
-{   
+{
+
     public function __construct()
     {
         $this->authorizeResource(Label::class, 'label');
@@ -82,7 +84,11 @@ class LabelController extends Controller
     public function update(Request $request, Label $label)
     {
         $request->validate([
-            'name' => 'required|string|unique:App\Models\Task',
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('labels')->ignore($label)
+            ],
             'description' => 'nullable|string',
         ]);
 
@@ -101,6 +107,10 @@ class LabelController extends Controller
      */
     public function destroy(Label $label)
     {
+        if ($label->tasks()->count() != 0) {
+            flash(__('messages.flash.error.deleted', ['obj' => 'Label']))->error();
+            return redirect()->back();
+        }
         $label->delete();
         flash(__('messages.flash.success.deleted', ['obj' => 'Label']))->success();
         return redirect()->route('labels.index');

@@ -8,14 +8,17 @@
         @csrf
         <div class="form-group">
             <label for="name">Name</label>
-            <input class="form-control @error('name') is-invalid @enderror"  name="name" type="text" id="name" value="{{ $label->name }}">
+            <input class="form-control @error('name') is-invalid @enderror"  name="name" type="text" id="name" value="{{ old('name', $label->name) }}">
             @error('name')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group">
             <label for="description">Description</label>
-            <textarea class="form-control" name="description" cols="50" rows="10" id="description">{{ $label->description }}</textarea>  
+            <textarea class="form-control  @error('description') is-invalid @enderror" name="description" cols="50" rows="10" id="description">{{ old('description', $label->description) }}</textarea>
+            @error('description')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror  
         </div>
         <input class="btn btn-primary" type="submit" value="Update">
         </form>

@@ -1,3 +1,6 @@
+@php
+$currentRouteName = Request::route()->getName();
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -32,12 +35,13 @@
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link " href="{{route('tasks.index')}}">tasks</a></li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="{{route('task_statuses.index')}}">taskStatuses</a>
+                                <a class="nav-link {{ $currentRouteName === 'tasks.index' ? 'active' : '' }}" href="{{route('tasks.index')}}">tasks</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " href="{{route('labels.index')}}">labels</a>
+                                <a class="nav-link {{ $currentRouteName === 'task_statuses.index' ? 'active' : '' }}" href="{{route('task_statuses.index')}}">taskStatuses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ $currentRouteName === 'labels.index' ? 'active' : '' }}" href="{{route('labels.index')}}">labels</a>
                             </li>
                         </ul>
                         <!-- Right Side Of Navbar -->

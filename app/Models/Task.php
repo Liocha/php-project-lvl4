@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Task extends Model
 {
@@ -29,5 +30,10 @@ class Task extends Model
     public function labels()
     {
         return $this->belongsToMany('App\Models\Label', 'task_label');
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::create($value)->format('M d Y');
     }
 }

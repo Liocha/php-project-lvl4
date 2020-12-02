@@ -9,7 +9,7 @@ use App\Models\TaskStatus;
 
 class TaskStatusControllerTest extends TestCase
 {
-    private $task_status;
+    private $taskStatus;
     private $user;
     private $name;
 
@@ -17,7 +17,7 @@ class TaskStatusControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->task_status = TaskStatus::factory()->create();
+        $this->taskStatus = TaskStatus::factory()->create();
         $this->user = User::factory()->create();
         $this->name = 'test status name';
     }
@@ -26,6 +26,8 @@ class TaskStatusControllerTest extends TestCase
     {
         $response = $this->get(route('task_statuses.index'));
         $response->assertSessionHasNoErrors();
+        $response->assertSeeText($this->taskStatus->name);
+        $response->assertSeeText($this->taskStatus->description);
         $response->assertOk();
     }
 
@@ -45,21 +47,21 @@ class TaskStatusControllerTest extends TestCase
 
     public function testEditForUnauthorizedUsers()
     {
-        $response = $this->get(route('task_statuses.edit', $this->task_status));
+        $response = $this->get(route('task_statuses.edit', $this->taskStatus));
         $response->assertSessionHasNoErrors();
         $response->assertForbidden();
     }
 
     public function testUpdateForUnauthorizedUsers()
     {
-        $response = $this->patch(route('task_statuses.update', $this->task_status));
+        $response = $this->patch(route('task_statuses.update', $this->taskStatus));
         $response->assertSessionHasNoErrors();
         $response->assertForbidden();
     }
 
     public function testDestroyForUnauthorizedUsers()
     {
-        $response = $this->delete(route('task_statuses.destroy', $this->task_status));
+        $response = $this->delete(route('task_statuses.destroy', $this->taskStatus));
         $response->assertSessionHasNoErrors();
         $response->assertForbidden();
     }
@@ -69,6 +71,8 @@ class TaskStatusControllerTest extends TestCase
         $response = $this->actingAs($this->user)
                          ->get(route('task_statuses.index'));
         $response->assertSessionHasNoErrors();
+        $response->assertSeeText($this->taskStatus->name);
+        $response->assertSeeText($this->taskStatus->description);
         $response->assertOk();
     }
 
@@ -94,17 +98,17 @@ class TaskStatusControllerTest extends TestCase
     public function testEditForAuthorizedUsers()
     {
         $response = $this->actingAs($this->user)
-                         ->get(route('task_statuses.edit', $this->task_status));
+                         ->get(route('task_statuses.edit', $this->taskStatus));
         $response->assertSessionHasNoErrors();
-        $response->assertSee($this->task_status->name);
+        $response->assertSee($this->taskStatus->name);
         $response->assertOk();
     }
 
     public function testUpdateForAuthorizedUsers()
     {
-        $currentStatusName = $this->task_status->name;
+        $currentStatusName = $this->taskStatus->name;
         $response = $this->actingAs($this->user)
-                         ->patch(route('task_statuses.update', $this->task_status), ['name' => $this->name]);
+                         ->patch(route('task_statuses.update', $this->taskStatus), ['name' => $this->name]);
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseMissing('task_statuses', [
             'name' => $currentStatusName
@@ -117,9 +121,9 @@ class TaskStatusControllerTest extends TestCase
 
     public function testDestroyForAauthorizedUsers()
     {
-        $currentStatusName = $this->task_status->name;
+        $currentStatusName = $this->taskStatus->name;
         $response = $this->actingAs($this->user)
-                         ->delete(route('task_statuses.destroy', $this->task_status));
+                         ->delete(route('task_statuses.destroy', $this->taskStatus));
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseMissing('task_statuses', [
             'name' => $currentStatusName

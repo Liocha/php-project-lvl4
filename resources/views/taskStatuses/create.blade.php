@@ -7,7 +7,7 @@
         @csrf
         <div class="form-group">
             <label for="name">Name</label>
-            <input class="form-control @error('name') is-invalid @enderror" name="name" type="text" id="name">
+            <input class="form-control @error('name') is-invalid @enderror" name="name" type="text" id="name" value="{{ old('name') }}">
             @error('name')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror

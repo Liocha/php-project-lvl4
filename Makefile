@@ -1,5 +1,5 @@
 start:
-	php artisan serve --host 0.0.0.0
+	php artisan serve --host 0.0.0.0 & npm run watch
 setup:
 	composer install
 	cp -n .env.example .env || true

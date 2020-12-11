@@ -8,22 +8,13 @@
 <a href="https://codeclimate.com/github/Liocha/php-project-lvl4/test_coverage"><img src="https://api.codeclimate.com/v1/badges/e502da4681faea3ec3b2/test_coverage" /></a>
 </p>
 
-### Setup
-
-For Docker setup update `.env.example`
-```
-DB_CONNECTION=pgsql
-DB_HOST=db
-DB_DATABASE=postgres
-DB_USERNAME=postgres
-DB_PASSWORD=password
-```
+### Устанвока проекта 
 
 ```sh
 $ make setup
 ```
 
-### Run
+### Запуск
 
 ```sh
 $ make start

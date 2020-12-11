@@ -8,8 +8,6 @@ setup:
 	make migrate
 	make seed
 	npm install
-watch:
-	npm run watch
 
 migrate:
 	php artisan migrate

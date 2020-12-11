@@ -19,3 +19,14 @@ $ make setup
 ```sh
 $ make start
 ```
+### Запуск линтера
+
+```sh
+$ make lint
+```
+
+### Запуск тестов
+
+```sh
+$ make test
+```

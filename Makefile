@@ -1,5 +1,5 @@
 start:
-	php artisan serve --host 0.0.0.0 & npm run dev
+	npm run dev & php artisan serve --host 0.0.0.0
 	
 setup:
 	composer install

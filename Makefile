@@ -6,10 +6,11 @@ setup:
 	cp -n .env.example .env|| true
 	php artisan key:gen --ansi
 	touch database/database.sqlite
+	sed -i '/^DB_/d' .env
+	echo DB_CONNECTION=sqlite >> .env
 	php artisan migrate
 	php artisan db:seed
 	npm install
-
 watch:
 	npm run watch
 
@@ -29,10 +30,10 @@ deploy:
 	git push heroku
 
 lint:
-	composer phpcs
+	composer exec phpcs -v
 
 lint-fix:
-	composer phpcbf
+	composer exec phpcbf
 
 compose:
 	docker-compose up
@@ -54,3 +55,6 @@ compose-db:
 
 compose-down:
 	docker-compose down -v
+
+test-coverage:
+	composer test -- --coverage-clover build/logs/clover.xml

@@ -6,8 +6,6 @@ setup:
 	cp -n .env.example .env || true
 	php artisan key:gen --ansi
 	touch database/database.sqlite
-	sed -i '/^DB_/d' .env
-	echo DB_CONNECTION=sqlite >> .env
 	php artisan migrate
 	php artisan db:seed
 	npm install

@@ -83,7 +83,8 @@ class TaskController extends Controller
     {
         $statusName = $task->status()->value('name');
         $labels = $task->labels()->orderBy('name')->get();
-        return view('task.show', compact('task', 'statusName', 'labels'));
+        $comments = $task->comments()->get();
+        return view('task.show', compact('task', 'statusName', 'labels', 'comments'));
     }
 
     /**
@@ -138,6 +139,7 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $task->labels()->detach();
+        $task->comments()->delete();
         $task->delete();
         flash(__('messages.flash.success.deleted', ['obj' => 'Task']))->success();
         return redirect()->route('tasks.index');

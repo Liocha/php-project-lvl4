@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TaskStatusController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\LabelController;
+use App\Http\Controllers\Task\CommentController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -20,8 +21,11 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::resource('task_statuses', TaskStatusController::class);
+Route::resource('task_statuses', TaskStatusController::class)->except(['show']);
 Route::resource('tasks', TaskController::class);
-Route::resource('labels', LabelController::class);
+Route::resource('labels', LabelController::class)->except(['show']);
+Route::resource('tasks.comments', CommentController::class)->shallow()->only([
+    'store', 'destroy'
+]);
 
 Auth::routes();

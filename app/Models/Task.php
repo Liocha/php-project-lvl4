@@ -32,6 +32,11 @@ class Task extends Model
         return $this->belongsToMany('App\Models\Label', 'task_label');
     }
 
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Task\Comment');
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return Carbon::create($value)->format('M d Y');

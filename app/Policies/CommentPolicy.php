@@ -2,12 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Task;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Facades\Auth;
 
-class TaskPolicy
+class CommentPolicy
 {
     use HandlesAuthorization;
 
@@ -17,21 +16,21 @@ class TaskPolicy
      * @param  \App\Models\User  $user
      * @return mixed
      */
-    public function viewAny(?User $user)
+    public function viewAny(User $user)
     {
-        return true;
+        //
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Task  $task
+     * @param  \App\Models\Comment  $comment
      * @return mixed
      */
-    public function view(?User $user, Task $task)
+    public function view(User $user, Comment $comment)
     {
-        return true;
+        //
     }
 
     /**
@@ -49,60 +48,47 @@ class TaskPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Task  $task
+     * @param  \App\Models\Comment  $comment
      * @return mixed
      */
-
-/*     public function update(User $user, Task $task)
+    public function update(User $user, Comment $comment)
     {
-        return true;
-    } */
-
-    /** fix for hexlet test */
-    public function update(?User $user, Task $task = null)
-    {
-        if (is_null($user)) {
-            return false;
-        }
-        return true;
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Task  $task
+     * @param  \App\Models\Comment  $comment
      * @return mixed
      */
-    public function delete(User $user, Task $task)
+    public function delete(User $user, Comment $comment)
     {
-        if ($task->created_by_id == $user->id) {
-            return true;
-        }
-        return false;
+        //
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Task  $task
+     * @param  \App\Models\Comment  $comment
      * @return mixed
      */
-    public function restore(User $user, Task $task)
+    public function restore(User $user, Comment $comment)
     {
-        return false;
+        //
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Task  $task
+     * @param  \App\Models\Comment  $comment
      * @return mixed
      */
-    public function forceDelete(User $user, Task $task)
+    public function forceDelete(User $user, Comment $comment)
     {
-        return false;
+        //
     }
 }

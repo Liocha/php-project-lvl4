@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::resource('task_statuses', TaskStatusController::class)->except(['show']);
-Route::resource('tasks', TaskController::class);
+Route::resource('tasks', TaskController::class)->middleware('auth');
 Route::resource('labels', LabelController::class)->except(['show']);
 Route::resource('tasks.comments', CommentController::class)->shallow()->only([
     'store', 'destroy'

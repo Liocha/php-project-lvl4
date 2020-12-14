@@ -35,35 +35,35 @@ class TaskStatusControllerTest extends TestCase
     {
         $response = $this->get(route('task_statuses.create'));
         $response->assertSessionHasNoErrors();
-        $response->assertForbidden();
+        $response->assertRedirect();
     }
 
     public function testStoreForUnauthorizedUsers()
     {
         $response = $this->post(route('task_statuses.store'));
         $response->assertSessionHasNoErrors();
-        $response->assertForbidden();
+        $response->assertRedirect();
     }
 
     public function testEditForUnauthorizedUsers()
     {
         $response = $this->get(route('task_statuses.edit', $this->taskStatus));
         $response->assertSessionHasNoErrors();
-        $response->assertForbidden();
+        $response->assertRedirect();
     }
 
     public function testUpdateForUnauthorizedUsers()
     {
         $response = $this->patch(route('task_statuses.update', $this->taskStatus));
         $response->assertSessionHasNoErrors();
-        $response->assertForbidden();
+        $response->assertRedirect();
     }
 
     public function testDestroyForUnauthorizedUsers()
     {
         $response = $this->delete(route('task_statuses.destroy', $this->taskStatus));
         $response->assertSessionHasNoErrors();
-        $response->assertForbidden();
+        $response->assertRedirect();
     }
 
     public function testIndexForAuthorizedUsers()

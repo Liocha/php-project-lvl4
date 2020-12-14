@@ -8,11 +8,6 @@ use Illuminate\Validation\Rule;
 
 class TaskStatusController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->authorizeResource(TaskStatus::class, 'task_status');
-    }
     /**
      * Display a listing of the resource.
      *

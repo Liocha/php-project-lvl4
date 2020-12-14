@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Comment::class, 'comment');
-    }
     /**
      * Store a newly created resource in storage.
      *
@@ -22,7 +18,7 @@ class CommentController extends Controller
     public function store(Request $request, $taskId)
     {
         $request->validate([
-            'content' => 'required|string',
+            'content' => 'required',
         ]);
         $comment = new Comment();
         $comment->content = $request->content;

@@ -29,7 +29,7 @@ class CommentControllerTest extends TestCase
                                                             ]
         );
         $response->assertSessionHasNoErrors();
-        $response->assertForbidden();
+        $response->assertRedirect();
     }
 
     public function testStoreForAuthorizedUsers()

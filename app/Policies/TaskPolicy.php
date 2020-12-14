@@ -53,19 +53,12 @@ class TaskPolicy
      * @return mixed
      */
 
-/*     public function update(User $user, Task $task)
+    public function update(User $user, Task $task)
     {
-        return true;
-    } */
-
-    /** fix for hexlet test */
-    public function update(?User $user, Task $task = null)
-    {
-        if (is_null($user)) {
-            return false;
-        }
         return true;
     }
+
+    /** fix for hexlet test */
 
     /**
      * Determine whether the user can delete the model.

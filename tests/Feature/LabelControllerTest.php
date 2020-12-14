@@ -37,35 +37,35 @@ class LabelControllerTest extends TestCase
     {
         $response = $this->get(route('labels.create'));
         $response->assertSessionHasNoErrors();
-        $response->assertForbidden();
+        $response->assertRedirect();
     }
 
     public function testStoreForUnauthorizedUsers()
     {
         $response = $this->post(route('labels.store'));
         $response->assertSessionHasNoErrors();
-        $response->assertForbidden();
+        $response->assertRedirect();
     }
 
     public function testEditForUnauthorizedUsers()
     {
         $response = $this->get(route('labels.edit', $this->label));
         $response->assertSessionHasNoErrors();
-        $response->assertForbidden();
+        $response->assertRedirect();
     }
 
     public function testUpdateForUnauthorizedUsers()
     {
         $response = $this->patch(route('labels.update', $this->label));
         $response->assertSessionHasNoErrors();
-        $response->assertForbidden();
+        $response->assertRedirect();
     }
 
     public function testDestroyForUnauthorizedUsers()
     {
         $response = $this->delete(route('labels.destroy', $this->label));
         $response->assertSessionHasNoErrors();
-        $response->assertForbidden();
+        $response->assertRedirect();
     }
 
     public function testIndexForAuthorizedUsers()

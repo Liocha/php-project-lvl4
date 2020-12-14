@@ -1,10 +1,12 @@
 {
-    "name": "liocha/task-manager",
+    "name": "Liocha/php-project-lvl4",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Мой 4й проект task-manager на hexlet.",
     "keywords": [
         "framework",
-        "laravel"
+        "laravel",
+        "hexlet",
+        "task-manager"
     ],
     "license": "MIT",
     "require": {

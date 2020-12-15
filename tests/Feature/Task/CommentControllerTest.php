@@ -16,7 +16,7 @@ class CommentControllerTest extends TestCase
         parent::setUp();
         $this->user = User::factory()->create();
         $this->task = Task::factory()->create();
-        $this->content = 'Тестовый контент сомментария';
+        $this->body = 'Тестовый контент сомментария';
     }
 
 
@@ -25,7 +25,7 @@ class CommentControllerTest extends TestCase
         $response = $this->post(
             route('tasks.comments.store', $this->task),
             [
-                                                            'content' => $this->content
+                                                            'content' => $this->body
                                                             ]
         );
         $response->assertSessionHasNoErrors();
@@ -38,12 +38,12 @@ class CommentControllerTest extends TestCase
                          ->post(
                              route('tasks.comments.store', $this->task),
                              [
-                                    'content' => $this->content,
+                                    'body' => $this->body,
                              ]
                          );
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('comments', [
-            'content' => $this->content,
+            'body' => $this->body,
             'created_by_id' => $this->user->id,
             'task_id' => $this->task->id,
         ]);

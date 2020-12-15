@@ -20,8 +20,8 @@
         @csrf
         <div class="form-group">
             <label for="description">Content</label>
-            <textarea class="form-control @error('content') is-invalid @enderror" name="content" cols="50" rows="10" id="content">{{ old('content') }}</textarea>
-            @error('content')
+            <textarea class="form-control @error('body') is-invalid @enderror" name="body" cols="50" rows="10" id="content">{{ old('body') }}</textarea>
+            @error('body')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror  
         </div>
@@ -31,7 +31,7 @@
     @foreach ($comments as $comment)
         <div class="mt-2">
             <h6>{{$comment->creator->name}}</h6>
-            <p>{{$comment->content}}</p>
+            <p>{{$comment->body}}</p>
         </div>
     @endforeach
 

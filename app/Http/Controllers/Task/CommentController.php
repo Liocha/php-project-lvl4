@@ -18,10 +18,10 @@ class CommentController extends Controller
     public function store(Request $request, $taskId)
     {
         $request->validate([
-            'content' => 'required',
+            'body' => 'required',
         ]);
         $comment = new Comment();
-        $comment->content = $request->content;
+        $comment->body = $request->body;
         $comment->task_id = $taskId;
         $comment->created_by_id = Auth::id();
         $comment->save();

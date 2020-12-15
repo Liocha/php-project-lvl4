@@ -28,57 +28,57 @@ class TaskControllerTest extends TestCase
         $this->description = 'Тестовое описание таска';
     }
 
-    public function testIndexForUnauthorizedUsers()
+    public function testIndexForUnauthenticatedUsers()
     {
         $response = $this->get(route('tasks.index'));
         $response->assertSessionHasNoErrors();
-    /*     $response->assertOk(); */
+        $response->assertOk();
     }
 
-    public function testCreateForUnauthorizedUsers()
+    public function testCreateForUnauthenticatedUsers()
     {
         $response = $this->get(route('tasks.create'));
         $response->assertSessionHasNoErrors();
-       /*  $response->assertForbidden(); */
+        $response->assertRedirect();
     }
 
-    public function testStoreForUnauthorizedUsers()
+    public function testStoreForUnauthenticatedUsers()
     {
         $response = $this->post(route('tasks.store'));
         $response->assertSessionHasNoErrors();
-       /*  $response->assertForbidden(); */
+        $response->assertRedirect();
     }
 
-    public function testShowForUnauthorizedUsers()
+    public function testShowForUnauthenticatedUsers()
     {
         $response = $this->get(route('tasks.show', $this->task));
         $response->assertSessionHasNoErrors();
-      /*   $response->assertOk(); */
+        $response->assertRedirect();
     }
 
 
-    public function testEditForUnauthorizedUsers()
+    public function testEditForUnauthenticatedUsers()
     {
         $response = $this->get(route('tasks.edit', $this->task));
         $response->assertSessionHasNoErrors();
-       /*  $response->assertForbidden(); */
+        $response->assertRedirect();
     }
 
-    public function testUpdateForUnauthorizedUsers()
+    public function testUpdateForUnauthenticatedUsers()
     {
         $response = $this->patch(route('tasks.update', $this->task));
         $response->assertSessionHasNoErrors();
-       /*  $response->assertForbidden(); */
+        $response->assertRedirect();
     }
 
-    public function testDestroyForUnauthorizedUsers()
+    public function testDestroyForUnauthenticatedUsers()
     {
         $response = $this->delete(route('tasks.destroy', $this->task));
         $response->assertSessionHasNoErrors();
-       /*  $response->assertForbidden(); */
+        $response->assertRedirect();
     }
 
-    public function testIndexForAuthorizedUsers()
+    public function testIndexForAuthenticatedUsers()
     {
         $response = $this->actingAs($this->user)
                          ->get(route('tasks.index'));
@@ -86,7 +86,7 @@ class TaskControllerTest extends TestCase
         $response->assertOk();
     }
 
-    public function testCreateForAuthorizedUsers()
+    public function testCreateForAuthenticatedUsers()
     {
         $response = $this->actingAs($this->user)
                          ->get(route('tasks.create'));
@@ -94,7 +94,7 @@ class TaskControllerTest extends TestCase
         $response->assertOk();
     }
 
-    public function testStoreForAuthorizedUsers()
+    public function testStoreForAuthenticatedUsers()
     {
         $response = $this->actingAs($this->user)
                          ->post(
@@ -118,7 +118,7 @@ class TaskControllerTest extends TestCase
         $response->assertRedirect();
     }
 
-    public function testShowForAuthorizedUsers()
+    public function testShowForAuthenticatedUsers()
     {
         $response = $this->actingAs($this->user)
                          ->get(route('tasks.show', $this->task));
@@ -130,7 +130,7 @@ class TaskControllerTest extends TestCase
         $response->assertOk();
     }
 
-    public function testEditForAuthorizedUsers()
+    public function testEditForAuthenticatedUsers()
     {
         $response = $this->actingAs($this->user)
                          ->get(route('tasks.edit', $this->task));
@@ -142,10 +142,11 @@ class TaskControllerTest extends TestCase
         $response->assertOk();
     }
 
-    public function testUpdateForAuthorizedUsers()
+    public function testUpdateForAuthenticatedUsers()
     {
         $currentTaskName = $this->task->name;
         $currentTaskDescription = $this->task->description;
+
         $response = $this->actingAs($this->user)
                          ->patch(
                              route('tasks.update', $this->task),
@@ -172,10 +173,12 @@ class TaskControllerTest extends TestCase
 
     public function testDestroyForAuthorizedUsers()
     {
-        $currentTaskName = $this->task->name;
-        $creator = User::where('id', $this->task->created_by_id)->first();
+
+        $newTask = Task::factory()->create();
+        $currentTaskName = $newTask->name;
+        $creator = $newTask->creator;
         $response = $this->actingAs($creator)
-                         ->delete(route('tasks.destroy', $this->task));
+                         ->delete(route('tasks.destroy', $newTask));
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseMissing('tasks', [
             'name' => $currentTaskName
@@ -183,7 +186,7 @@ class TaskControllerTest extends TestCase
         $response->assertRedirect();
     }
 
-/*     public function testDestroyForAuthorizedUserWhereHeIsNotTheCreator()
+    public function testDestroyForAuthorizedUserWhereHeIsNotTheCreator()
     {
         $currentTaskName = $this->task->name;
         $response = $this->actingAs($this->user)
@@ -193,5 +196,5 @@ class TaskControllerTest extends TestCase
             'name' => $currentTaskName
         ]);
         $response->assertForbidden();
-    } */
+    }
 }

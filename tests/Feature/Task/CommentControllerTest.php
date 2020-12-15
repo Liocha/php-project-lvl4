@@ -20,7 +20,7 @@ class CommentControllerTest extends TestCase
     }
 
 
-    public function testStoreForUnauthorizedUsers()
+    public function testStoreForUnauthenticatedUsers()
     {
         $response = $this->post(
             route('tasks.comments.store', $this->task),
@@ -32,7 +32,7 @@ class CommentControllerTest extends TestCase
         $response->assertRedirect();
     }
 
-    public function testStoreForAuthorizedUsers()
+    public function testStoreForAuthenticatedUsers()
     {
         $response = $this->actingAs($this->user)
                          ->post(

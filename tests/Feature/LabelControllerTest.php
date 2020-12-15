@@ -24,7 +24,7 @@ class LabelControllerTest extends TestCase
         $this->description = 'test label description';
     }
 
-    public function testIndexForUnauthorizedUsers()
+    public function testIndexForUnauthenticatedUsers()
     {
         $response = $this->get(route('labels.index'));
         $response->assertSessionHasNoErrors();
@@ -33,42 +33,42 @@ class LabelControllerTest extends TestCase
         $response->assertOk();
     }
 
-    public function testCreateForUnauthorizedUsers()
+    public function testCreateForUnauthenticatedUsers()
     {
         $response = $this->get(route('labels.create'));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
     }
 
-    public function testStoreForUnauthorizedUsers()
+    public function testStoreForUnauthenticatedUsers()
     {
         $response = $this->post(route('labels.store'));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
     }
 
-    public function testEditForUnauthorizedUsers()
+    public function testEditForUnauthenticatedUsers()
     {
         $response = $this->get(route('labels.edit', $this->label));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
     }
 
-    public function testUpdateForUnauthorizedUsers()
+    public function testUpdateForUnauthenticatedUsers()
     {
         $response = $this->patch(route('labels.update', $this->label));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
     }
 
-    public function testDestroyForUnauthorizedUsers()
+    public function testDestroyForUnauthenticatedUsers()
     {
         $response = $this->delete(route('labels.destroy', $this->label));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
     }
 
-    public function testIndexForAuthorizedUsers()
+    public function testIndexForAuthenticatedUsers()
     {
         $response = $this->actingAs($this->user)
                          ->get(route('labels.index'));
@@ -78,7 +78,7 @@ class LabelControllerTest extends TestCase
         $response->assertOk();
     }
 
-    public function testCreateForAuthorizedUsers()
+    public function testCreateForAuthenticatedUsers()
     {
         $response = $this->actingAs($this->user)
                          ->get(route('labels.create'));
@@ -86,7 +86,7 @@ class LabelControllerTest extends TestCase
         $response->assertOk();
     }
 
-    public function testStoreForAuthorizedUsers()
+    public function testStoreForAuthenticatedUsers()
     {
         $response = $this->actingAs($this->user)
                          ->post(route('labels.store'), [
@@ -101,7 +101,7 @@ class LabelControllerTest extends TestCase
         $response->assertRedirect();
     }
 
-    public function testEditForAuthorizedUsers()
+    public function testEditForAuthenticatedUsers()
     {
         $response = $this->actingAs($this->user)
                          ->get(route('labels.edit', $this->label));
@@ -111,7 +111,7 @@ class LabelControllerTest extends TestCase
         $response->assertOk();
     }
 
-    public function testUpdateForAuthorizedUsers()
+    public function testUpdateForAuthenticatedUsers()
     {
         $currentLabelName = $this->label->name;
         $currentLabelDescription = $this->label->description;
@@ -135,7 +135,7 @@ class LabelControllerTest extends TestCase
         $response->assertRedirect();
     }
 
-    public function testDestroyForAauthorizedUsers()
+    public function testDestroyForAuthenticatedUsers()
     {
         $currentLabelName = $this->label->name;
         $currentLabelDescription = $this->label->description;

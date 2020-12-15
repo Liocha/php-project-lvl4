@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
@@ -18,6 +19,7 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $tasks = QueryBuilder::for(Task::class)
@@ -105,6 +107,7 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
+
         $request->validate([
             'name' => [
                 'required',
@@ -132,6 +135,9 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+        if (!Gate::allows('delete-task', $task)) {
+            abort(403);
+        }
         $task->labels()->detach();
         $task->comments()->delete();
         $task->delete();

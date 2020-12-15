@@ -6,6 +6,8 @@ use App\Models\TaskStatus;
 use App\Policies\TaskStatusPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use App\Models\User;
+use App\Models\Task;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -16,7 +18,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
-        'App\Models\TaskStatus' => 'App\Policies\TaskStatusPolicy',
     ];
 
     /**
@@ -28,6 +29,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Gate::define('delete-task', function (User $user, Task $task) {
+            return $user->id == $task->created_by_id;
+        });
         //
     }
 }

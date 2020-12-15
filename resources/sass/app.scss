@@ -9,9 +9,11 @@
 
 .wrap-alert {
     position: fixed;
-    top: 100px;
-    right: 100px;
+    top: 150px;
+    right: 150px;
     opacity: 0;
+    font-size: 20;
+    font-weight: bold;
 }
 .invalid-feedback
 {

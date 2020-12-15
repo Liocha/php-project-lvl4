@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Label;
+use Faker\Factory as Faker;
 
 class LabelControllerTest extends TestCase
 {
@@ -19,8 +20,9 @@ class LabelControllerTest extends TestCase
 
         $this->label = Label::factory()->create();
         $this->user = User::factory()->create();
-        $this->name = 'test label name';
-        $this->description = 'test label description';
+        $faker = Faker::create();
+        $this->name = $faker->word;
+        $this->description = $faker->paragraph;
     }
 
     public function testIndexForUnauthenticatedUsers()

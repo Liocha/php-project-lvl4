@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Task;
+use Faker\Factory as Faker;
 
 class CommentControllerTest extends TestCase
 {
@@ -20,7 +21,8 @@ class CommentControllerTest extends TestCase
         parent::setUp();
         $this->user = User::factory()->create();
         $this->task = Task::factory()->create();
-        $this->body = 'Тестовый контент сомментария';
+        $faker = Faker::create();
+        $this->body = $faker->paragraph;
     }
 
 

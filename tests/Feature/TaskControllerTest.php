@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Task;
 use App\Models\TaskStatus;
+use Faker\Factory as Faker;
 
 class TaskControllerTest extends TestCase
 {
@@ -24,8 +25,9 @@ class TaskControllerTest extends TestCase
         $this->user = User::factory()->create();
         $this->task = Task::factory()->create();
         $this->taskStatus = TaskStatus::factory()->create();
-        $this->name = 'Тестовое имя таска';
-        $this->description = 'Тестовое описание таска';
+        $faker = Faker::create();
+        $this->name = $faker->word;
+        $this->description = $faker->paragraph;
     }
 
     public function testIndexForUnauthenticatedUsers()

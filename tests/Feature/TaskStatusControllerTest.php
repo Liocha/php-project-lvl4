@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\TaskStatus;
+use Faker\Factory as Faker;
 
 class TaskStatusControllerTest extends TestCase
 {
@@ -15,10 +16,10 @@ class TaskStatusControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
+        $faker = Faker::create();
         $this->taskStatus = TaskStatus::factory()->create();
         $this->user = User::factory()->create();
-        $this->name = 'test status name';
+        $this->name = $faker->word;
     }
 
     public function testIndexForUnauthenticatedUsers()

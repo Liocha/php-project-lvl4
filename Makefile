@@ -1,5 +1,5 @@
 start:
-	php artisan serve --host 0.0.0.0
+	foreman start -f devProcfile
 	
 setup:
 	composer install

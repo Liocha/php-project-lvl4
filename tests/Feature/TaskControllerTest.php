@@ -12,11 +12,11 @@ class TaskControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $task;
-    private $user;
-    private $taskStatus;
-    private $name;
-    private $description;
+    private Task $task;
+    private User $user;
+    private TaskStatus $taskStatus;
+    private string $name;
+    private string $description;
 
     protected function setUp(): void
     {

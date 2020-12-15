@@ -11,6 +11,10 @@ class CommentControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    private User $user;
+    private Task $task;
+    private string $body;
+
     protected function setUp(): void
     {
         parent::setUp();

@@ -25,19 +25,6 @@ class CommentControllerTest extends TestCase
         $this->body = $faker->paragraph;
     }
 
-
-    public function testStoreForUnauthenticatedUsers()
-    {
-        $response = $this->post(
-            route('tasks.comments.store', $this->task),
-            [
-                                                            'content' => $this->body
-                                                            ]
-        );
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect();
-    }
-
     public function testStoreForAuthenticatedUsers()
     {
         $response = $this->actingAs($this->user)

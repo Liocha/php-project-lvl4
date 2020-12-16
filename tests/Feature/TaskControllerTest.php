@@ -33,58 +33,13 @@ class TaskControllerTest extends TestCase
     public function testIndexForUnauthenticatedUsers()
     {
         $response = $this->get(route('tasks.index'));
-        $response->assertSessionHasNoErrors();
         $response->assertOk();
-    }
-
-    public function testCreateForUnauthenticatedUsers()
-    {
-        $response = $this->get(route('tasks.create'));
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect();
-    }
-
-    public function testStoreForUnauthenticatedUsers()
-    {
-        $response = $this->post(route('tasks.store'));
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect();
-    }
-
-    public function testShowForUnauthenticatedUsers()
-    {
-        $response = $this->get(route('tasks.show', $this->task));
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect();
-    }
-
-
-    public function testEditForUnauthenticatedUsers()
-    {
-        $response = $this->get(route('tasks.edit', $this->task));
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect();
-    }
-
-    public function testUpdateForUnauthenticatedUsers()
-    {
-        $response = $this->patch(route('tasks.update', $this->task));
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect();
-    }
-
-    public function testDestroyForUnauthenticatedUsers()
-    {
-        $response = $this->delete(route('tasks.destroy', $this->task));
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect();
     }
 
     public function testIndexForAuthenticatedUsers()
     {
         $response = $this->actingAs($this->user)
                          ->get(route('tasks.index'));
-        $response->assertSessionHasNoErrors();
         $response->assertOk();
     }
 
@@ -92,7 +47,6 @@ class TaskControllerTest extends TestCase
     {
         $response = $this->actingAs($this->user)
                          ->get(route('tasks.create'));
-        $response->assertSessionHasNoErrors();
         $response->assertOk();
     }
 
@@ -124,7 +78,6 @@ class TaskControllerTest extends TestCase
     {
         $response = $this->actingAs($this->user)
                          ->get(route('tasks.show', $this->task));
-        $response->assertSessionHasNoErrors();
         $response->assertSeeText([
                                 $this->task->name,
                                 $this->task->description
@@ -136,7 +89,6 @@ class TaskControllerTest extends TestCase
     {
         $response = $this->actingAs($this->user)
                          ->get(route('tasks.edit', $this->task));
-        $response->assertSessionHasNoErrors();
         $response->assertSeeText([
                                 $this->task->name,
                                 $this->task->description

@@ -28,54 +28,13 @@ class LabelControllerTest extends TestCase
     public function testIndexForUnauthenticatedUsers()
     {
         $response = $this->get(route('labels.index'));
-        $response->assertSessionHasNoErrors();
-        $response->assertSeeText($this->label->name);
-        $response->assertSeeText($this->label->description);
         $response->assertOk();
-    }
-
-    public function testCreateForUnauthenticatedUsers()
-    {
-        $response = $this->get(route('labels.create'));
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect();
-    }
-
-    public function testStoreForUnauthenticatedUsers()
-    {
-        $response = $this->post(route('labels.store'));
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect();
-    }
-
-    public function testEditForUnauthenticatedUsers()
-    {
-        $response = $this->get(route('labels.edit', $this->label));
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect();
-    }
-
-    public function testUpdateForUnauthenticatedUsers()
-    {
-        $response = $this->patch(route('labels.update', $this->label));
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect();
-    }
-
-    public function testDestroyForUnauthenticatedUsers()
-    {
-        $response = $this->delete(route('labels.destroy', $this->label));
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect();
     }
 
     public function testIndexForAuthenticatedUsers()
     {
         $response = $this->actingAs($this->user)
                          ->get(route('labels.index'));
-        $response->assertSessionHasNoErrors();
-        $response->assertSeeText($this->label->name);
-        $response->assertSeeText($this->label->description);
         $response->assertOk();
     }
 
@@ -83,7 +42,6 @@ class LabelControllerTest extends TestCase
     {
         $response = $this->actingAs($this->user)
                          ->get(route('labels.create'));
-        $response->assertSessionHasNoErrors();
         $response->assertOk();
     }
 
@@ -106,9 +64,6 @@ class LabelControllerTest extends TestCase
     {
         $response = $this->actingAs($this->user)
                          ->get(route('labels.edit', $this->label));
-        $response->assertSessionHasNoErrors();
-        $response->assertSee($this->label->name);
-        $response->assertSee($this->label->description);
         $response->assertOk();
     }
 

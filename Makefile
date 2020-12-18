@@ -1,6 +1,6 @@
 start:
-	foreman start -f devProcfile
-	
+	heroku local -f Procfile.dev
+
 setup:
 	composer install
 	cp -n .env.example .env || true
@@ -8,11 +8,11 @@ setup:
 	touch database/database.sqlite
 	make migrate
 	make seed
-	npm install
+	npm ci
 
 migrate:
 	php artisan migrate
-	
+
 seed:
 	php artisan db:seed
 

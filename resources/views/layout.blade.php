@@ -80,11 +80,7 @@ $currentRouteName = Request::route()->getName();
                     </div>
                 </div>
             </nav>
-        <div class="wrap-alert" id="my-alert-wrap">
-                <div class="row flex-row-reverse">
-                    @include('flash::message')
-                </div>
-        </div>
+        @include('flash::message')
         @yield('content')    
         </div>
     </body>

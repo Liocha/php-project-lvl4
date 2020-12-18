@@ -14,6 +14,7 @@ class CreateTaskLabelTable extends Migration
     public function up()
     {
         Schema::create('task_label', function (Blueprint $table) {
+            $table->id();
             $table->integer('task_id')->references('id')->on('tasks');
             $table->integer('label_id')->references('id')->on('labels');
         });

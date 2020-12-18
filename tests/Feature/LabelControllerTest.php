@@ -5,102 +5,79 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Label;
-use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class LabelControllerTest extends TestCase
 {
+    use WithFaker;
+
     private Label $label;
     private User $user;
-    private string $name;
-    private string $description;
+    private array $labelData;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->label = Label::factory()->create();
+        $this->labalId = $this->label->id;
+        $this->labalName = $this->label->name;
         $this->user = User::factory()->create();
-        $faker = Faker::create();
-        $this->name = $faker->word;
-        $this->description = $faker->paragraph;
+        $this->labelData = ['name' => $this->faker->word(), 'description' => $this->faker->paragraph()];
     }
 
-    public function testIndexForUnauthenticatedUsers()
+    public function testIndex()
     {
-        $response = $this->get(route('labels.index'));
+        $response = $this->actingAs($this->user)
+            ->get(route('labels.index'));
         $response->assertOk();
     }
 
-    public function testIndexForAuthenticatedUsers()
+    public function testCreate()
     {
         $response = $this->actingAs($this->user)
-                         ->get(route('labels.index'));
+            ->get(route('labels.create'));
         $response->assertOk();
     }
 
-    public function testCreateForAuthenticatedUsers()
+    public function testStore()
     {
         $response = $this->actingAs($this->user)
-                         ->get(route('labels.create'));
-        $response->assertOk();
-    }
-
-    public function testStoreForAuthenticatedUsers()
-    {
-        $response = $this->actingAs($this->user)
-                         ->post(route('labels.store'), [
-                             'name' => $this->name,
-                             'description' => $this->description
-                             ]);
+            ->post(route('labels.store'), $this->labelData);
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('labels', [
-            'name' => $this->name,
-            'description' => $this->description
-        ]);
+        $this->assertDatabaseHas('labels', $this->labelData);
         $response->assertRedirect();
     }
 
-    public function testEditForAuthenticatedUsers()
+    public function testEdit()
     {
         $response = $this->actingAs($this->user)
-                         ->get(route('labels.edit', $this->label));
+            ->get(route('labels.edit', $this->label));
         $response->assertOk();
     }
 
-    public function testUpdateForAuthenticatedUsers()
+    public function testUpdate()
     {
-        $currentLabelName = $this->label->name;
-        $currentLabelDescription = $this->label->description;
         $response = $this->actingAs($this->user)
-                         ->patch(
-                             route('labels.update', $this->label),
-                             [
-                                'name' => $this->name,
-                                'description' => $this->description
-                             ]
-                         );
+            ->patch(
+                route('labels.update', $this->label),
+                $this->labelData
+            );
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseMissing('labels', [
-            'name' => $currentLabelName,
-            'description' => $currentLabelDescription
+            'id' => $this->labalName
         ]);
-        $this->assertDatabaseHas('labels', [
-            'name' => $this->name,
-            'description' => $this->description,
-        ]);
+        $this->assertDatabaseHas('labels', $this->labelData);
         $response->assertRedirect();
     }
 
-    public function testDestroyForAuthenticatedUsers()
+    public function testDestroy()
     {
-        $currentLabelName = $this->label->name;
-        $currentLabelDescription = $this->label->description;
         $response = $this->actingAs($this->user)
-                         ->delete(route('labels.destroy', $this->label));
+            ->delete(route('labels.destroy', $this->label));
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseMissing('labels', [
-            'name' => $currentLabelName,
-            'description' => $currentLabelDescription
+            'id' => $this->labalId
         ]);
         $response->assertRedirect();
     }

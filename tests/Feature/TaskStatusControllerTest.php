@@ -5,10 +5,12 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\TaskStatus;
-use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class TaskStatusControllerTest extends TestCase
 {
+    use WithFaker;
+
     private TaskStatus $taskStatus;
     private User $user;
     private string $name;
@@ -16,36 +18,29 @@ class TaskStatusControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $faker = Faker::create();
         $this->taskStatus = TaskStatus::factory()->create();
         $this->user = User::factory()->create();
-        $this->name = $faker->word;
+        $this->name = $this->faker->word();
     }
 
-    public function testIndexForUnauthenticatedUsers()
+    public function testIndex()
     {
         $response = $this->get(route('task_statuses.index'));
         $response->assertOk();
     }
 
-    public function testIndexForAuthenticatedUsers()
+
+    public function testCreate()
     {
         $response = $this->actingAs($this->user)
-                         ->get(route('task_statuses.index'));
+            ->get(route('task_statuses.create'));
         $response->assertOk();
     }
 
-    public function testCreateForAuthenticatedUsers()
+    public function testStore()
     {
         $response = $this->actingAs($this->user)
-                         ->get(route('task_statuses.create'));
-        $response->assertOk();
-    }
-
-    public function testStoreForAuthenticatedUsers()
-    {
-        $response = $this->actingAs($this->user)
-                         ->post(route('task_statuses.store'), ['name' => $this->name]);
+            ->post(route('task_statuses.store'), ['name' => $this->name]);
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('task_statuses', [
             'name' => $this->name,
@@ -53,19 +48,19 @@ class TaskStatusControllerTest extends TestCase
         $response->assertRedirect();
     }
 
-    public function testEditForAuthenticatedUsers()
+    public function testEdit()
     {
         $response = $this->actingAs($this->user)
-                         ->get(route('task_statuses.edit', $this->taskStatus));
+            ->get(route('task_statuses.edit', $this->taskStatus));
 
         $response->assertOk();
     }
 
-    public function testUpdateForAuthenticatedUsers()
+    public function testUpdate()
     {
         $currentStatusName = $this->taskStatus->name;
         $response = $this->actingAs($this->user)
-                         ->patch(route('task_statuses.update', $this->taskStatus), ['name' => $this->name]);
+            ->patch(route('task_statuses.update', $this->taskStatus), ['name' => $this->name]);
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseMissing('task_statuses', [
             'name' => $currentStatusName
@@ -76,14 +71,14 @@ class TaskStatusControllerTest extends TestCase
         $response->assertRedirect();
     }
 
-    public function testDestroyForAAuthenticatedUsers()
+    public function testDestroy()
     {
-        $currentStatusName = $this->taskStatus->name;
+        $currentStatusId = $this->taskStatus->name;
         $response = $this->actingAs($this->user)
-                         ->delete(route('task_statuses.destroy', $this->taskStatus));
+            ->delete(route('task_statuses.destroy', $this->taskStatus));
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseMissing('task_statuses', [
-            'name' => $currentStatusName
+            'id' => $currentStatusId
         ]);
         $response->assertRedirect();
     }

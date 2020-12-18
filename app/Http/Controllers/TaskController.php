@@ -23,8 +23,8 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = QueryBuilder::for(Task::class)
-                    ->allowedFilters(['status_id','created_by_id', 'assigned_to_id'])
-                    ->get();
+            ->allowedFilters(['status_id', 'created_by_id', 'assigned_to_id'])
+            ->get();
         $taskStatuses = TaskStatus::all();
         $users = User::all();
         $acviteFiltrs = optional(request()->get('filter'));

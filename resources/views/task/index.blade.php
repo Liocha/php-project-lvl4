@@ -55,7 +55,7 @@
             <td>{{$task->created_at}}</td>
             @auth
                 <td> 
-                    @if($task->created_by_id === Auth::id())
+                    @if($task->created_by_id == Auth::id())
                     <form method="post" action="{{ route('tasks.destroy', $task) }}" class="d-inline-block">
                         @method('delete')
                         @csrf

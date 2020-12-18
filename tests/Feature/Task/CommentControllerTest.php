@@ -6,11 +6,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Task;
-use Faker\Factory as Faker;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class CommentControllerTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
 
     private User $user;
     private Task $task;
@@ -21,19 +22,18 @@ class CommentControllerTest extends TestCase
         parent::setUp();
         $this->user = User::factory()->create();
         $this->task = Task::factory()->create();
-        $faker = Faker::create();
-        $this->body = $faker->paragraph;
+        $this->body = $this->faker->paragraph();
     }
 
-    public function testStoreForAuthenticatedUsers()
+    public function testStore()
     {
         $response = $this->actingAs($this->user)
-                         ->post(
-                             route('tasks.comments.store', $this->task),
-                             [
-                                    'body' => $this->body,
-                             ]
-                         );
+            ->post(
+                route('tasks.comments.store', $this->task),
+                [
+                    'body' => $this->body,
+                ]
+            );
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('comments', [
             'body' => $this->body,

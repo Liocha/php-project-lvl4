@@ -5,22 +5,27 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\TaskStatus;
-use Illuminate\Foundation\Testing\WithFaker;
+use TaskStatusSeeder;
+use UserSeeder;
 
 class TaskStatusControllerTest extends TestCase
 {
-    use WithFaker;
-
-    private TaskStatus $taskStatus;
     private User $user;
-    private string $name;
+    private TaskStatus $taskStatus;
+    private string $taskStatusId;
+    private string $taskStatusName;
+    private string $newTaskStatusName;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->taskStatus = TaskStatus::factory()->create();
-        $this->user = User::factory()->create();
-        $this->name = $this->faker->word();
+        $this->seed(TaskStatusSeeder::class);
+        $this->seed(UserSeeder::class);
+        $this->user = User::find(1);
+        $this->taskStatus = TaskStatus::find(1);
+        $this->taskStatusId = $this->taskStatus->id;
+        $this->taskStatusName = $this->taskStatus->name;
+        $this->newTaskStatusName = TaskStatus::make()->get('name');
     }
 
     public function testIndex()
@@ -40,10 +45,10 @@ class TaskStatusControllerTest extends TestCase
     public function testStore()
     {
         $response = $this->actingAs($this->user)
-            ->post(route('task_statuses.store'), ['name' => $this->name]);
+            ->post(route('task_statuses.store'), ['name' => $this->newTaskStatusName]);
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('task_statuses', [
-            'name' => $this->name,
+            'name' => $this->taskStatusName,
         ]);
         $response->assertRedirect();
     }
@@ -52,33 +57,30 @@ class TaskStatusControllerTest extends TestCase
     {
         $response = $this->actingAs($this->user)
             ->get(route('task_statuses.edit', $this->taskStatus));
-
         $response->assertOk();
     }
 
     public function testUpdate()
     {
-        $currentStatusName = $this->taskStatus->name;
         $response = $this->actingAs($this->user)
-            ->patch(route('task_statuses.update', $this->taskStatus), ['name' => $this->name]);
+            ->patch(route('task_statuses.update', $this->taskStatus), ['name' => $this->newTaskStatusName]);
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseMissing('task_statuses', [
-            'name' => $currentStatusName
+            'name' => $this->taskStatusName
         ]);
         $this->assertDatabaseHas('task_statuses', [
-            'name' => $this->name,
+            'name' => $this->newTaskStatusName,
         ]);
         $response->assertRedirect();
     }
 
     public function testDestroy()
     {
-        $currentStatusId = $this->taskStatus->name;
         $response = $this->actingAs($this->user)
             ->delete(route('task_statuses.destroy', $this->taskStatus));
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseMissing('task_statuses', [
-            'id' => $currentStatusId
+            'id' => $this->taskStatusId
         ]);
         $response->assertRedirect();
     }

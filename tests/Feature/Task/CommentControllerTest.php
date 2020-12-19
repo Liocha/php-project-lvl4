@@ -6,23 +6,26 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Task;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Task\Comment;
+use CommentSeeder;
 
 class CommentControllerTest extends TestCase
 {
     use RefreshDatabase;
-    use WithFaker;
 
     private User $user;
     private Task $task;
-    private string $body;
+    private array $newCommentAttributes;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->user = User::factory()->create();
-        $this->task = Task::factory()->create();
-        $this->body = $this->faker->paragraph();
+        $this->seed(CommentSeeder::class);
+        $this->user = User::find(1);
+        $this->task = Task::find(1);
+        $this->newCommentAttributes = Comment::factory()
+            ->make(['created_by_id' => $this->user->id, 'task_id' => $this->task->id])
+            ->only(['body', 'created_by_id', 'task_id']);
     }
 
     public function testStore()
@@ -30,16 +33,10 @@ class CommentControllerTest extends TestCase
         $response = $this->actingAs($this->user)
             ->post(
                 route('tasks.comments.store', $this->task),
-                [
-                    'body' => $this->body,
-                ]
+                $this->newCommentAttributes
             );
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('comments', [
-            'body' => $this->body,
-            'created_by_id' => $this->user->id,
-            'task_id' => $this->task->id,
-        ]);
+        $this->assertDatabaseHas('comments', $this->newCommentAttributes);
         $response->assertRedirect();
     }
 }

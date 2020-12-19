@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Task\Comment;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
-class CommentSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class CommentSeeder extends Seeder
      */
     public function run()
     {
-        Comment::factory()
+        User::factory()
             ->times(5)
             ->create();
     }

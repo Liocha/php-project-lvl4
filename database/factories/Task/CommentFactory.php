@@ -4,6 +4,8 @@ namespace Database\Factories\Task;
 
 use App\Models\Task\Comment;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Task;
+use App\Models\User;
 
 class CommentFactory extends Factory
 {
@@ -22,7 +24,9 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'task_id' => Task::factory(),
+            'body' => $this->faker->text(),
+            'created_by_id' => User::factory()
         ];
     }
 }

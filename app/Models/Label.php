@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Models\Task;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Label extends Model
 {
@@ -12,12 +14,12 @@ class Label extends Model
 
     protected $fillable = ['name', 'description'];
 
-    public function tasks()
+    public function tasks(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Task', 'task_label');
+        return $this->belongsToMany(Task::class, 'task_label');
     }
 
-    public function getCreatedAtAttribute($value)
+    public function getCreatedAtAttribute($value): string
     {
         return Carbon::create($value)->format('M d Y');
     }

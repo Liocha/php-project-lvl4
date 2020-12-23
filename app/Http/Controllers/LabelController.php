@@ -40,7 +40,7 @@ class LabelController extends Controller
     {
         $request->validate([
             'name' => 'required|string|unique:App\Models\Label',
-            'description' => 'nullable|string',
+            'description' => 'required|nullable|string',
         ]);
 
         Label::create($request->all());

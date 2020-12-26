@@ -5,30 +5,42 @@
     <h1 class="mb-5">Task</h1>
     <div class="row">
         <div>
-            <form method="get" action="{{route('tasks.index')}}" accept-charset="UTF-8" class="form-inline">
-                <select class="form-control mr-2" name="filter[status_id]">
-                    <option value="">Status</option>
-                    @foreach ($taskStatuses as $taskStatus)
-                    <option {{ $acviteFiltrs['status_id'] == $taskStatus->id ? 'selected' : '' }} value="{{$taskStatus->id}}">{{$taskStatus->name}}</option>
-                    @endforeach
-                </select>
-                <select class="form-control mr-2" name="filter[created_by_id]">
-                    <option value="">Creator</option>
-                    @foreach ($users as $user)
-                    <option {{ $acviteFiltrs['created_by_id'] == $user->id ? 'selected' : '' }} value="{{$user->id}}">{{$user->name}}</option>
-                    @endforeach
-                </select>
-                <select class="form-control mr-2" name="filter[assigned_to_id]">
-                    <option value="">Assignee</option>
-                    @foreach ($users as $user)
-                    <option {{ $acviteFiltrs['assigned_to_id'] == $user->id ? 'selected' : '' }} value="{{$user->id}}">{{$user->name}}</option>
-                    @endforeach
-                </select>
-                <input class="btn btn-outline-primary mr-2" type="submit" value="Apply">
-            </form>
+            {{ Form::open(['route' => ['tasks.index'], 'method' => 'get', 'class' => 'form-inline']) }}
+                {{ Form::bsSelect('filter[status_id]',
+                    $taskStatuses,
+                    [
+                        'class' => 'form-control mr-2',
+                        'placeholder' => 'Status'
+                    ],
+                    'Status',
+                    $acviteFiltrs['status_id'],
+                    false
+                )}}
+                {{ Form::bsSelect('filter[created_by_id]',
+                    $users,
+                    [
+                        'class' => 'form-control mr-2',
+                        'placeholder' => 'Creator'
+                    ],
+                    'Creator',
+                    $acviteFiltrs['created_by_id'],
+                    false
+                )}}
+                {{ Form::bsSelect('filter[assigned_to_id]',
+                    $users,
+                    [
+                        'class' => 'form-control mr-2',
+                        'placeholder' => 'Assignee'
+                    ],
+                    'Assignee',
+                    $acviteFiltrs['assigned_to_id'],
+                    false
+                )}}
+                {{ Form::bsBtnSubmit('Apply') }}
+            {{ Form::close() }}
         </div>
         @auth
-        <a href="{{route('tasks.create')}}" class="btn btn-primary ml-auto">Add new</a>
+        {{ link_to_route('tasks.create', 'Add new', [],  ["class" => "btn btn-primary ml-auto"]) }}
         @endauth
     </div>
     <table class="table mt-2">
@@ -45,7 +57,7 @@
                 @endauth
             </tr>
         </thead>
-        @foreach ($tasks as $task)    
+        @foreach ($tasks as $task)
         <tr>
             <td>{{$task->id}}</td>
             <td>{{optional($task->status)->name}}</td>
@@ -54,19 +66,17 @@
             <td>{{optional($task->assignee)->name}}</td>
             <td>{{$task->created_at}}</td>
             @auth
-                <td> 
-                    @if($task->created_by_id == Auth::id())
-                    <form method="post" action="{{ route('tasks.destroy', $task) }}" class="d-inline-block">
-                        @method('delete')
-                        @csrf
-                        <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-danger btn-sm"> Remove </button >
-                    </form>
-                    @endif
-                    <a class="btn btn-secondary btn-sm" href="{{ route('tasks.edit', $task)}}"> Edit </a > 
-                </td>
+            <td>
+                @if($task->created_by_id == Auth::id())
+                {{ Form::open(['route' => ['tasks.destroy', $task], "class" => "d-inline-block", "method" => "delete"]) }}
+                    {{ Form::bsBtnSubmit('Remove', ["onclick" => "return confirm('Are you sure?')", 'class' => "btn btn-danger btn-sm"]) }}
+                {{ Form::close() }}
+                @endif
+                {{ link_to_route('tasks.edit', 'Edit', [$task], ["class" => "btn btn-secondary btn-sm"] )}}
+            </td>
             @endauth
         </tr>
         @endforeach
     </table>
 </main>
-@endsection 
+@endsection

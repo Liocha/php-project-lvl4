@@ -17,6 +17,8 @@ class Task extends Model
 {
     use HasFactory;
 
+    protected $keyType = 'string';
+
     protected $fillable = ['name', 'description', 'status_id', 'assigned_to_id'];
 
     public function creator(): BelongsTo

@@ -3,9 +3,11 @@
 @section('content')
 <main class="container py-4">
     <h1 class="mb-5">Task Status</h1>
+    @auth
     <div class="row">
         {{ link_to_route('task_statuses.create', 'Add new', [],  ["class" => "btn btn-primary"]) }}
     </div>
+    @endauth
     <table class="table mt-2">
         <thead>
             <tr>

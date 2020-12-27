@@ -43,9 +43,4 @@ class Task extends Model
     {
         return $this->hasMany(Comment::class);
     }
-
-    public function getCreatedAtAttribute($value): string
-    {
-        return Carbon::create($value)->format('M d Y');
-    }
 }

@@ -18,9 +18,4 @@ class Label extends Model
     {
         return $this->belongsToMany(Task::class, 'task_label');
     }
-
-    public function getCreatedAtAttribute($value): string
-    {
-        return Carbon::create($value)->format('M d Y');
-    }
 }

@@ -9,12 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->authorizeResource(Comment::class, 'commnet');
+    }
+
     public function store(Request $request, $taskId)
     {
         $request->validate([
@@ -29,12 +28,6 @@ class CommentController extends Controller
         return redirect()->route('tasks.show', $taskId);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Task\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Comment $comment)
     {
         $comment->delete();

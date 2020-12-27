@@ -14,11 +14,10 @@ use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->authorizeResource(Task::class, 'task');
+    }
 
     public function index()
     {
@@ -31,11 +30,6 @@ class TaskController extends Controller
         return view('task.index', compact('tasks', 'users', 'taskStatuses', 'acviteFiltrs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $taskStatuses = TaskStatus::all();
@@ -44,12 +38,6 @@ class TaskController extends Controller
         return view('task.create', compact('users', 'taskStatuses', 'labels'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -69,12 +57,6 @@ class TaskController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
     public function show(Task $task)
     {
         $statusName = $task->status()->value('name');
@@ -83,12 +65,6 @@ class TaskController extends Controller
         return view('task.show', compact('task', 'statusName', 'labels', 'comments'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Task $task)
     {
         $taskStatuses = TaskStatus::all();
@@ -98,13 +74,6 @@ class TaskController extends Controller
         return view('task.edit', compact('task', 'taskStatuses', 'users', 'labels', 'taskLables'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Task $task)
     {
 
@@ -127,17 +96,8 @@ class TaskController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Task $task)
     {
-        if (!Gate::allows('delete-task', $task)) {
-            abort(403);
-        }
         $task->labels()->detach();
         $task->comments()->delete();
         $task->delete();

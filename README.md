@@ -31,6 +31,35 @@ Task Manager, система управления задачами, подобн
 * Rollbar, трекинг ошибок в продакшене.
 * Makefile, удобное взаимодействие с проектом в процессе разработки.
 
+## Требования
+
+Проверить зависимости PHP можно командой `composer check-platform-reqs`
+* PHP ^7.4
+* Extensions:
+    - dom
+    - fileinfo
+    - filter
+    - json
+    - libxml
+    - mbstring
+    - openssl
+    - pcre
+    - PDO
+    - Phar
+    - SimpleXML
+    - tokenizer
+    - pgsql
+    - xml
+    - xmlwriter
+    - sqlite3
+    - tokenizer
+    - pcre
+    - zip
+* Composer
+* Node.js (v13.11+) & NPM (6.13+)
+* SQLite for local, PostgreSQL or MySQL for production
+* [heroku cli](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
+
 ### Установка проекта 
 
 ```sh

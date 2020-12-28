@@ -5,7 +5,7 @@
     <h1 class="mb-5">{{ __('label.title') }}</h1>
     @auth
     <div class="row">
-        {{ link_to_route('labels.create', 'Add new', [],  ["class" => "btn btn-primary mr-auto"]) }}
+        {{ link_to_route('labels.create', __('label.btn.add_new'), [],  ["class" => "btn btn-primary mr-auto"]) }}
     </div>
     @endauth
     <table class="table mt-2">
@@ -28,10 +28,14 @@
             <td>{{$label->created_at->format('M d Y')}}</td>
             @auth
                 <td>
-                    {{ Form::open(['route' => ['labels.destroy', $label], "class" => "d-inline-block", "method" => "delete"]) }}
-                        {{ Form::bsBtnSubmit('Remove', ["onclick" => "return confirm('Are you sure?')", 'class' => "btn btn-danger btn-sm"]) }}
-                    {{ Form::close() }}
-                    {{ link_to_route('labels.edit', 'Edit', [$label], ["class" => "btn btn-secondary btn-sm"] )}}
+                    <a href="{{route('labels.destroy', $label)}}"
+                       data-confirm="Вы уверены?"
+                       data-method="delete"
+                       rel="nofollow"
+                       class="btn btn-danger btn-sm">
+                       {{ __('label.btn.remove') }}
+                    </a>
+                    {{ link_to_route('labels.edit', __('label.btn.edit'), [$label], ["class" => "btn btn-secondary btn-sm"] )}}
                 </td>
             @endauth
         </tr>

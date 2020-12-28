@@ -3,12 +3,12 @@
 return [
     'flash' => [
         'success' => [
-            'added' => ':obj has been added!',
-            'changed' => ':obj has been changed!',
-            'deleted' => ':obj has been deleted!',
+            'added' => ':subject has been added!',
+            'changed' => ':subject has been changed!',
+            'deleted' => ':subject has been deleted!',
         ],
         'error' => [
-            'deleted' => ':obj is currently in use!',
+            'deleted' => ':subject is currently in use!',
         ]
 
     ]

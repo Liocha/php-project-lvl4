@@ -6,19 +6,3 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-
-.wrap-alert {
-    position: fixed;
-    top: 150px;
-    right: 150px;
-    opacity: 0;
-    font-size: 20;
-    font-weight: bold;
-}
-.invalid-feedback
-{
-    width: 100%;
-    margin-top: .25rem;
-    font-size: 80%;
-    color: #e3342f;
-}   

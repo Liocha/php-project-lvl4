@@ -24,8 +24,8 @@ class CustomComponentsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        FormFacade::component('bsText', 'components.form.text', ['name', 'value', 'attributes']);
-        FormFacade::component('bsTextarea', 'components.form.textarea', ['name', 'value', 'attributes']);
+        FormFacade::component('bsText', 'components.form.text', ['name', 'value', 'attributes', 'labelValue']);
+        FormFacade::component('bsTextarea', 'components.form.textarea', ['name', 'value', 'attributes', 'labelValue']);
         FormFacade::component('bsBtnSubmit', 'components.form.btn', ['value', 'attributes' => []]);
         FormFacade::component('bsSelect', 'components.form.select', ['name', 'value', 'attributes', 'labelValue', 'selected' => null, 'hasLabel' => true]);
     }

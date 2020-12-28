@@ -6,6 +6,8 @@ $currentRouteName = Request::route()->getName();
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="csrf-param" content="_token" />
         <title>{{config('app.name', 'Task Manager') }}</title>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
@@ -14,7 +16,7 @@ $currentRouteName = Request::route()->getName();
             <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
                 <div class="container">
                     <a class="navbar-brand" href="{{route('home')}}">
-                        {{config('app.name', 'Task Manager') }}
+                        {{config('app.name', __('layout.nav.name') ) }}
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -24,13 +26,13 @@ $currentRouteName = Request::route()->getName();
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link {{ $currentRouteName === 'tasks.index' ? 'active' : '' }}" href="{{route('tasks.index')}}">{{ __('nav.tasks') }}</a>
+                                <a class="nav-link {{ $currentRouteName === 'tasks.index' ? 'active' : '' }}" href="{{route('tasks.index')}}">{{ __('layout.nav.tasks') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ $currentRouteName === 'task_statuses.index' ? 'active' : '' }}" href="{{route('task_statuses.index')}}">{{ __('nav.taskStatuses') }}</a>
+                                <a class="nav-link {{ $currentRouteName === 'task_statuses.index' ? 'active' : '' }}" href="{{route('task_statuses.index')}}">{{ __('layout.nav.taskStatuses') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ $currentRouteName === 'labels.index' ? 'active' : '' }}" href="{{route('labels.index')}}">{{ __('nav.labels') }}</a>
+                                <a class="nav-link {{ $currentRouteName === 'labels.index' ? 'active' : '' }}" href="{{route('labels.index')}}">{{ __('layout.nav.labels') }}</a>
                             </li>
                         </ul>
                         <!-- Right Side Of Navbar -->
@@ -39,13 +41,13 @@ $currentRouteName = Request::route()->getName();
                             @guest
                                 @if (Route::has('login'))
                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                        <a class="nav-link" href="{{ route('login') }}">{{ __('layout.nav.login') }}</a>
                                     </li>
                                 @endif
 
                                 @if (Route::has('register'))
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                        <a class="nav-link" href="{{ route('register') }}">{{ __('layout.nav.register') }}</a>
                                     </li>
                                 @endif
                             @else
@@ -54,14 +56,12 @@ $currentRouteName = Request::route()->getName();
                                         {{ Auth::user()->name }}
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
-                                           onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
+                                        <a class="dropdown-item"
+                                           href="{{route('logout')}}"
+                                           data-method="post"
+                                           rel="nofollow">
+                                            {{ __('layout.nav.logout') }}
                                         </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                            @csrf
-                                        </form>
                                     </div>
                                 </li>
                             @endguest

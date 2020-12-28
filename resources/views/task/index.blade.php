@@ -10,9 +10,9 @@
                     $taskStatuses,
                     [
                         'class' => 'form-control mr-2',
-                        'placeholder' => 'Status'
+                        'placeholder' => __('task.search_form.status')
                     ],
-                    'Status',
+                    __('task.search_form.status'),
                     $acviteFilters['status_id'],
                     false
                 )}}
@@ -20,9 +20,9 @@
                     $users,
                     [
                         'class' => 'form-control mr-2',
-                        'placeholder' => 'Creator'
+                        'placeholder' => __('task.search_form.creator')
                     ],
-                    'Creator',
+                    __('task.search_form.creator'),
                     $acviteFilters['created_by_id'],
                     false
                 )}}
@@ -30,17 +30,17 @@
                     $users,
                     [
                         'class' => 'form-control mr-2',
-                        'placeholder' => 'Assignee'
+                        'placeholder' => __('task.search_form.assignee')
                     ],
-                    'Assignee',
+                    __('task.search_form.assignee'),
                     $acviteFilters['assigned_to_id'],
                     false
                 )}}
-                {{ Form::bsBtnSubmit('Apply') }}
+                {{ Form::bsBtnSubmit(__('task.search_form.apply')) }}
             {{ Form::close() }}
         </div>
         @auth
-        {{ link_to_route('tasks.create', 'Add new', [],  ["class" => "btn btn-primary ml-auto"]) }}
+        {{ link_to_route('tasks.create', __('task.btn.add_new'), [],  ["class" => "btn btn-primary ml-auto"]) }}
         @endauth
     </div>
     <table class="table mt-2">
@@ -53,7 +53,7 @@
                 <th>{{ __('task.assignee') }}</th>
                 <th>{{ __('task.created_at') }}</th>
                 @auth
-                    <th>{{ __('task.actions') }}</th>
+                <th>{{ __('task.actions') }}</th>
                 @endauth
             </tr>
         </thead>
@@ -68,11 +68,15 @@
             @auth
             <td>
                 @if($task->created_by_id == Auth::id())
-                {{ Form::open(['route' => ['tasks.destroy', $task], "class" => "d-inline-block", "method" => "delete"]) }}
-                    {{ Form::bsBtnSubmit('Remove', ["onclick" => "return confirm('Are you sure?')", 'class' => "btn btn-danger btn-sm"]) }}
-                {{ Form::close() }}
+                <a href="{{route('tasks.destroy', $task)}}"
+                   data-confirm="Вы уверены?"
+                   data-method="delete"
+                   rel="nofollow"
+                   class="btn btn-danger btn-sm">
+                   {{ __('task.btn.remove') }}
+                </a>
                 @endif
-                {{ link_to_route('tasks.edit', 'Edit', [$task], ["class" => "btn btn-secondary btn-sm"] )}}
+                {{ link_to_route('tasks.edit',  __('task.btn.edit'), [$task], ["class" => "btn btn-secondary btn-sm"] )}}
             </td>
             @endauth
         </tr>

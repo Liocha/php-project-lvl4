@@ -2,9 +2,9 @@
 
 @section('content')
 <main class="container py-4">
-    <h1 class="mb-5">Add New Task</h1>
+    <h1 class="mb-5">{{ __('task.add_new_task') }}</h1>
     {{ Form::open(['route' => 'tasks.store', 'class' => 'w-50']) }}
-        {{ Form::bsText('name', old('name'), ['class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : null)]) }}
+        {{ Form::bsText('name', old('name'), ['class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : null)], __('task.name')) }}
         {{ Form::bsTextarea('description',
             old('description'),
             [
@@ -12,24 +12,25 @@
                 'cols' => '50',
                 'rows' => '10',
                 'id' => 'description'
-            ])
+            ],
+            __('task.description'))
         }}
         {{ Form::bsSelect('status_id',
             $taskStatuses,
             [
                 'class' => 'form-control' . ($errors->has('status_id') ? ' is-invalid' : null),
-                'placeholder' => 'Status'
+                'placeholder' => __('task.status')
             ],
-            'Status'
+            __('task.status')
             )
         }}
         {{ Form::bsSelect('assigned_to_id',
             $users,
             [
                 'class' => 'form-control' . ($errors->has('assigned_to_id') ? ' is-invalid' : null),
-                'placeholder' => 'Assignee',
+                'placeholder' => __('task.assignee'),
             ],
-            'Assignee'
+            __('task.assignee'),
             )
         }}
         {{ Form::bsSelect('labels',
@@ -39,10 +40,10 @@
                 'multiple',
                 'name' => 'labels[]'
             ],
-            'Labels'
+            __('task.labels')
             )
         }}
-        {{ Form::bsBtnSubmit('Create') }}
+        {{ Form::bsBtnSubmit(__('task.btn.create')) }}
     {{ Form::close() }}
 </main>
 @endsection

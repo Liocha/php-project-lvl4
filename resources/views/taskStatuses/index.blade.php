@@ -5,7 +5,7 @@
     <h1 class="mb-5">{{ __('taskStatus.title') }}</h1>
     @auth
     <div class="row">
-        {{ link_to_route('task_statuses.create', 'Add new', [],  ["class" => "btn btn-primary"]) }}
+        {{ link_to_route('task_statuses.create',  __('taskStatus.btn.add_new'), [],  ["class" => "btn btn-primary"]) }}
     </div>
     @endauth
     <table class="table mt-2">
@@ -26,10 +26,14 @@
             <td>{{$taskStatus->created_at->format('M d Y')}}</td>
             @auth
                 <td>
-                    {{ Form::open(['route' => ['task_statuses.destroy', $taskStatus], "class" => "d-inline-block", "method" => "delete"]) }}
-                        {{ Form::bsBtnSubmit('Remove', ["onclick" => "return confirm('Are you sure?')", 'class' => "btn btn-danger btn-sm"]) }}
-                    {{ Form::close() }}
-                    {{ link_to_route('task_statuses.edit', 'Edit', [$taskStatus], ["class" => "btn btn-secondary btn-sm"] )}}
+                    <a href="{{route('task_statuses.destroy', $taskStatus)}}"
+                       data-confirm="Вы уверены?"
+                       data-method="delete"
+                       rel="nofollow"
+                       class="btn btn-danger btn-sm">
+                       {{ __('taskStatus.btn.remove') }}
+                    </a>
+                    {{ link_to_route('task_statuses.edit', __('taskStatus.btn.edit'), [$taskStatus], ["class" => "btn btn-secondary btn-sm"] )}}
                 </td>
             @endauth
         </tr>

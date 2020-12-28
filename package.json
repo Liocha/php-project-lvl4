@@ -27,6 +27,6 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "@rails/ujs": "^6.1.0"
+        "jquery-ujs": "^1.2.2"
     }
 }

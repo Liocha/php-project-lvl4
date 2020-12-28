@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Task\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class CommentController extends Controller
 {
@@ -14,7 +15,7 @@ class CommentController extends Controller
         $this->authorizeResource(Comment::class, 'commnet');
     }
 
-    public function store(Request $request, $taskId)
+    public function store(Request $request, $taskId): RedirectResponse
     {
         $request->validate([
             'body' => 'required',
@@ -22,7 +23,7 @@ class CommentController extends Controller
         $comment = new Comment();
         $comment->body = $request->body;
         $comment->task_id = $taskId;
-        $comment->created_by_id = Auth::id();
+        $comment->creator()->associate(Auth::user());
         $comment->save();
         flash('Your comment has been published successfully')->success();
         return redirect()->route('tasks.show', $taskId);

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Label;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class LabelController extends Controller
 {
@@ -14,21 +16,21 @@ class LabelController extends Controller
         $this->authorizeResource(Label::class, 'label');
     }
 
-    public function index()
+    public function index(): View
     {
         $labels = Label::all();
         return view('label.index', compact('labels'));
     }
 
-    public function create()
+    public function create(): View
     {
         return view('label.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', Rule::unique('labels')],
+            'name' => 'required|string|unique:labels',
             'description' => 'nullable|string',
         ]);
 
@@ -37,12 +39,12 @@ class LabelController extends Controller
         return redirect()->route('labels.index');
     }
 
-    public function edit(Label $label)
+    public function edit(Label $label): View
     {
         return view('label.edit', compact('label'));
     }
 
-    public function update(Request $request, Label $label)
+    public function update(Request $request, Label $label): RedirectResponse
     {
         $request->validate([
             'name' => [
@@ -60,9 +62,9 @@ class LabelController extends Controller
         return redirect()->route('labels.index');
     }
 
-    public function destroy(Label $label)
+    public function destroy(Label $label): RedirectResponse
     {
-        if ($label->tasks()->count() != 0) {
+        if ($label->tasks()->exists()) {
             flash(__('messages.flash.error.deleted', ['obj' => 'Label']))->error();
             return redirect()->back();
         }

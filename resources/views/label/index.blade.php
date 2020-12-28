@@ -2,7 +2,7 @@
 
 @section('content')
 <main class="container py-4">
-    <h1 class="mb-5">Labels</h1>
+    <h1 class="mb-5">{{ __('label.title') }}</h1>
     @auth
     <div class="row">
         {{ link_to_route('labels.create', 'Add new', [],  ["class" => "btn btn-primary mr-auto"]) }}
@@ -11,12 +11,12 @@
     <table class="table mt-2">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Created At</th>
+                <th>{{ __('label.id') }}</th>
+                <th>{{ __('label.name') }}</th>
+                <th>{{ __('label.description') }}</th>
+                <th>{{ __('label.created_at') }}</th>
                 @auth
-                    <th>Actions</th>
+                    <th>{{ __('label.actions') }}</th>
                 @endauth
             </tr>
         </thead>
@@ -25,7 +25,7 @@
             <td>{{$label->id}}</td>
             <td>{{$label->name}}</td>
             <td>{{$label->description}}</td>
-            <td>{{$label->created_at}}</td>
+            <td>{{$label->created_at->format('M d Y')}}</td>
             @auth
                 <td>
                     {{ Form::open(['route' => ['labels.destroy', $label], "class" => "d-inline-block", "method" => "delete"]) }}

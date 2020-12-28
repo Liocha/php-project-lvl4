@@ -2,7 +2,7 @@
 
 @section('content')
 <main class="container py-4">
-    <h1 class="mb-5">Task</h1>
+    <h1 class="mb-5">{{ __('task.title') }}</h1>
     <div class="row">
         <div>
             {{ Form::open(['route' => ['tasks.index'], 'method' => 'get', 'class' => 'form-inline']) }}
@@ -46,14 +46,14 @@
     <table class="table mt-2">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Status</th>
-                <th>Name</th>
-                <th>Creator</th>
-                <th>Assignee</th>
-                <th>Created At</th>
+                <th>{{ __('task.id') }}</th>
+                <th>{{ __('task.status') }}</th>
+                <th>{{ __('task.name') }}</th>
+                <th>{{ __('task.creator') }}</th>
+                <th>{{ __('task.assignee') }}</th>
+                <th>{{ __('task.created_at') }}</th>
                 @auth
-                    <th>Actions</th>
+                    <th>{{ __('task.actions') }}</th>
                 @endauth
             </tr>
         </thead>
@@ -64,7 +64,7 @@
             <td><a href="{{route('tasks.show', $task)}}">{{$task->name}}</a></td>
             <td>{{optional($task->creator)->name}}</td>
             <td>{{optional($task->assignee)->name}}</td>
-            <td>{{$task->created_at}}</td>
+            <td>{{$task->created_at->format('M d Y')}}</td>
             @auth
             <td>
                 @if($task->created_by_id == Auth::id())

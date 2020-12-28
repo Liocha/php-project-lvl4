@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class TaskController extends Controller
 {
@@ -18,7 +20,7 @@ class TaskController extends Controller
         $this->authorizeResource(Task::class, 'task');
     }
 
-    public function index()
+    public function index(): View
     {
         $tasks = QueryBuilder::for(Task::class)
             ->allowedFilters(['status_id', 'created_by_id', 'assigned_to_id'])
@@ -29,7 +31,7 @@ class TaskController extends Controller
         return view('task.index', compact('tasks', 'users', 'taskStatuses', 'acviteFilters'));
     }
 
-    public function create()
+    public function create(): View
     {
         $taskStatuses = TaskStatus::all();
         $users = User::all();
@@ -37,25 +39,24 @@ class TaskController extends Controller
         return view('task.create', compact('users', 'taskStatuses', 'labels'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => 'required|string|unique:App\Models\Task',
+            'name' => "required|string|unique:tasks",
             'description' => 'nullable|string',
-            'assigned_to_id' => 'nullable|exists:App\Models\User,id'
+            'assigned_to_id' => 'nullable|exists:users,id',
+            'labels.*' => 'exists:labels,id'
         ]);
-
         $task = new Task();
-        $task->created_by_id = Auth::id();
+        $task->creator()->associate(Auth::user());
         $task->fill($request->all());
         $task->save();
-        $labels = collect($request->input('labels'))->whereNotNull()->all();
-        $task->labels()->sync($labels);
+        $task->labels()->sync($request->input('labels'));
         flash(__('messages.flash.success.added', ['obj' => 'Task']))->success();
         return redirect()->route('tasks.index');
     }
 
-    public function show(Task $task)
+    public function show(Task $task): View
     {
         $statusName = $task->status->name;
         $labels = $task->labels()->orderBy('name')->get();
@@ -63,7 +64,7 @@ class TaskController extends Controller
         return view('task.show', compact('task', 'statusName', 'labels', 'comments'));
     }
 
-    public function edit(Task $task)
+    public function edit(Task $task): View
     {
         $taskStatuses = TaskStatus::all();
         $labels = Label::all();
@@ -72,7 +73,7 @@ class TaskController extends Controller
         return view('task.edit', compact('task', 'taskStatuses', 'users', 'labels', 'taskLables'));
     }
 
-    public function update(Request $request, Task $task)
+    public function update(Request $request, Task $task): RedirectResponse
     {
 
         $request->validate([
@@ -82,19 +83,18 @@ class TaskController extends Controller
                 Rule::unique('tasks')->ignore($task)
             ],
             'description' => 'nullable|string',
-            'status_id' => 'required|exists:App\Models\TaskStatus,id',
-            'assigned_to_id' => 'nullable|exists:App\Models\User,id'
+            'status_id' => 'required|exists:task_statuses,id',
+            'assigned_to_id' => 'nullable|exists:users,id',
+            'labels.*' => 'exists:labels,id'
         ]);
-
         $task->fill($request->all());
         $task->save();
-        $labels = collect($request->input('labels'))->whereNotNull()->all();
-        $task->labels()->sync($labels);
+        $task->labels()->sync($request->input('labels'));
         flash(__('messages.flash.success.changed', ['obj' => 'Task']))->success();
         return redirect()->route('tasks.index');
     }
 
-    public function destroy(Task $task)
+    public function destroy(Task $task): RedirectResponse
     {
         $task->labels()->detach();
         $task->comments()->delete();

@@ -36,7 +36,6 @@
             $labels,
             [
                 'class' => 'form-control' . ($errors->has('labels') ? ' is-invalid' : null),
-                'placeholder' => '',
                 'multiple',
                 'name' => 'labels[]'
             ],

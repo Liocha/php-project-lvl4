@@ -13,7 +13,7 @@
                         'placeholder' => 'Status'
                     ],
                     'Status',
-                    $acviteFiltrs['status_id'],
+                    $acviteFilters['status_id'],
                     false
                 )}}
                 {{ Form::bsSelect('filter[created_by_id]',
@@ -23,7 +23,7 @@
                         'placeholder' => 'Creator'
                     ],
                     'Creator',
-                    $acviteFiltrs['created_by_id'],
+                    $acviteFilters['created_by_id'],
                     false
                 )}}
                 {{ Form::bsSelect('filter[assigned_to_id]',
@@ -33,7 +33,7 @@
                         'placeholder' => 'Assignee'
                     ],
                     'Assignee',
-                    $acviteFiltrs['assigned_to_id'],
+                    $acviteFilters['assigned_to_id'],
                     false
                 )}}
                 {{ Form::bsBtnSubmit('Apply') }}

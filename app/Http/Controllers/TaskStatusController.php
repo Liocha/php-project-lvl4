@@ -58,7 +58,7 @@ class TaskStatusController extends Controller
 
     public function destroy(TaskStatus $taskStatus)
     {
-        if ($taskStatus->tasks()->count() != 0) {
+        if ($taskStatus->tasks()->count() !== 0) {
             flash(__('messages.flash.error.deleted', ['obj' => 'Status']))->error();
             return redirect()->back();
         }

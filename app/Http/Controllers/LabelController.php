@@ -28,18 +28,13 @@ class LabelController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|unique:App\Models\Label',
-            'description' => 'required|nullable|string',
+            'name' => ['required', 'string', Rule::unique('labels')],
+            'description' => 'nullable|string',
         ]);
 
         Label::create($request->all());
         flash(__('messages.flash.success.added', ['obj' => 'Label']))->success();
         return redirect()->route('labels.index');
-    }
-
-    public function show(Label $label)
-    {
-        //не используется
     }
 
     public function edit(Label $label)

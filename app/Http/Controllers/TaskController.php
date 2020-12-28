@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
-use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
@@ -26,8 +25,8 @@ class TaskController extends Controller
             ->get();
         $taskStatuses = TaskStatus::all();
         $users = User::all();
-        $acviteFiltrs = optional(request()->get('filter'));
-        return view('task.index', compact('tasks', 'users', 'taskStatuses', 'acviteFiltrs'));
+        $acviteFilters = optional(request()->get('filter'));
+        return view('task.index', compact('tasks', 'users', 'taskStatuses', 'acviteFilters'));
     }
 
     public function create()
@@ -43,7 +42,6 @@ class TaskController extends Controller
         $request->validate([
             'name' => 'required|string|unique:App\Models\Task',
             'description' => 'nullable|string',
-            'status_id' => 'required|exists:App\Models\TaskStatus,id',
             'assigned_to_id' => 'nullable|exists:App\Models\User,id'
         ]);
 
@@ -59,7 +57,7 @@ class TaskController extends Controller
 
     public function show(Task $task)
     {
-        $statusName = $task->status()->value('name');
+        $statusName = $task->status->name;
         $labels = $task->labels()->orderBy('name')->get();
         $comments = $task->comments()->get();
         return view('task.show', compact('task', 'statusName', 'labels', 'comments'));

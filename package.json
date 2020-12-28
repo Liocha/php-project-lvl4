@@ -28,5 +28,8 @@
     },
     "dependencies": {
         "jquery-ujs": "^1.2.2"
+    },
+    "optionalDependencies": {
+        "fsevents": "^2.2.1"
     }
 }

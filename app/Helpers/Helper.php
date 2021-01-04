@@ -5,7 +5,7 @@ namespace App\Helpers;
 class Helper
 {
 
-    static $errors;
+    public static $errors;
 
     public static function getActivClass(string $linkRouteNane): string
     {

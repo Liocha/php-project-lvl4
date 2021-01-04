@@ -24,7 +24,7 @@ class LabelControllerTest extends TestCase
         $this->seed(UserSeeder::class);
         $this->label = Label::find(1);
         $this->user = User::find(1);
-        $this->newlabelAttributes = Label::factory()->make()->only(['name', 'description']);;
+        $this->newlabelAttributes = Label::factory()->make()->only(['name', 'description']);
     }
 
     public function testIndex()

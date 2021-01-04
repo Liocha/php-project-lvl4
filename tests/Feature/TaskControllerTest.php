@@ -13,7 +13,6 @@ class TaskControllerTest extends TestCase
     use RefreshDatabase;
 
     private Task $task;
-    private array $taskAttributes;
     private User $taskCreator;
     private TaskStatus $taskStatus;
     private array $newTaskAttributes;
@@ -23,7 +22,6 @@ class TaskControllerTest extends TestCase
         parent::setUp();
         $this->seed();
         $this->task = Task::find(1);
-        $this->taskAttributes = $this->task->only(['id', 'name', 'description', 'status_id']);
         $this->taskCreator = $this->task->creator;
         $this->taskStatus = TaskStatus::find(1);
         $this->newTaskAttributes = Task::factory()->make([
@@ -77,7 +75,7 @@ class TaskControllerTest extends TestCase
                 $this->newTaskAttributes
             );
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseMissing('tasks', $this->taskAttributes);
+        $this->assertDatabaseMissing('tasks', $this->task->only(['id', 'name', 'description', 'status_id']));
         $this->assertDatabaseHas('tasks', $this->newTaskAttributes);
         $response->assertRedirect();
     }
@@ -87,7 +85,7 @@ class TaskControllerTest extends TestCase
         $response = $this->actingAs($this->taskCreator)
             ->delete(route('tasks.destroy', $this->task));
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseMissing('tasks', $this->taskAttributes);
+        $this->assertDatabaseMissing('tasks', $this->task->only(['id', 'name', 'description', 'status_id']));
         $response->assertRedirect();
     }
 }

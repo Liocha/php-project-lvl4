@@ -14,9 +14,8 @@ class LabelControllerTest extends TestCase
     use WithFaker;
 
     private Label $label;
-    private array $labalAttributes;
     private User $user;
-    private array $newlabalAttributes;
+    private array $newlabelAttributes;
 
     protected function setUp(): void
     {
@@ -24,10 +23,8 @@ class LabelControllerTest extends TestCase
         $this->seed(LabelSeeder::class);
         $this->seed(UserSeeder::class);
         $this->label = Label::find(1);
-        $this->labalAttributes = $this->label->only(['name', 'description']);
         $this->user = User::find(1);
-        $this->newlabalAttributes = Label::factory()->make()->only(['name', 'description']);
-        ;
+        $this->newlabelAttributes = Label::factory()->make()->only(['name', 'description']);;
     }
 
     public function testIndex()
@@ -47,9 +44,9 @@ class LabelControllerTest extends TestCase
     public function testStore()
     {
         $response = $this->actingAs($this->user)
-            ->post(route('labels.store'), $this->newlabalAttributes);
+            ->post(route('labels.store'), $this->newlabelAttributes);
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('labels', $this->newlabalAttributes);
+        $this->assertDatabaseHas('labels', $this->newlabelAttributes);
         $response->assertRedirect();
     }
 
@@ -65,11 +62,11 @@ class LabelControllerTest extends TestCase
         $response = $this->actingAs($this->user)
             ->patch(
                 route('labels.update', $this->label),
-                $this->newlabalAttributes
+                $this->newlabelAttributes
             );
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseMissing('labels', $this->labalAttributes);
-        $this->assertDatabaseHas('labels', $this->newlabalAttributes);
+        $this->assertDatabaseMissing('labels', $this->label->only(['name', 'description']));
+        $this->assertDatabaseHas('labels', $this->newlabelAttributes);
         $response->assertRedirect();
     }
 
@@ -78,7 +75,7 @@ class LabelControllerTest extends TestCase
         $response = $this->actingAs($this->user)
             ->delete(route('labels.destroy', $this->label));
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseMissing('labels', $this->labalAttributes);
+        $this->assertDatabaseMissing('labels', $this->label->only(['name', 'description']));
         $response->assertRedirect();
     }
 }

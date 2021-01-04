@@ -1,6 +1,4 @@
-@php
-$currentRouteName = Request::route()->getName();
-@endphp
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -26,30 +24,25 @@ $currentRouteName = Request::route()->getName();
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link {{ $currentRouteName === 'tasks.index' ? 'active' : '' }}" href="{{route('tasks.index')}}">{{ __('layout.nav.tasks') }}</a>
+                                <a class="nav-link {{ Helper::getActivClass('tasks.index') }}" href="{{route('tasks.index')}}">{{ __('layout.nav.tasks') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ $currentRouteName === 'task_statuses.index' ? 'active' : '' }}" href="{{route('task_statuses.index')}}">{{ __('layout.nav.taskStatuses') }}</a>
+                                <a class="nav-link {{ Helper::getActivClass('task_statuses.index') }}" href="{{route('task_statuses.index')}}">{{ __('layout.nav.taskStatuses') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ $currentRouteName === 'labels.index' ? 'active' : '' }}" href="{{route('labels.index')}}">{{ __('layout.nav.labels') }}</a>
+                                <a class="nav-link {{ Helper::getActivClass('labels.index') }}" href="{{route('labels.index')}}">{{ __('layout.nav.labels') }}</a>
                             </li>
                         </ul>
                         <!-- Right Side Of Navbar -->
                         <ul class="navbar-nav ml-auto">
                             <!-- Authentication Links -->
                             @guest
-                                @if (Route::has('login'))
                                    <li class="nav-item">
                                         <a class="nav-link" href="{{ route('login') }}">{{ __('layout.nav.login') }}</a>
                                     </li>
-                                @endif
-
-                                @if (Route::has('register'))
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('register') }}">{{ __('layout.nav.register') }}</a>
                                     </li>
-                                @endif
                             @else
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

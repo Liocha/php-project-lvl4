@@ -12,8 +12,6 @@ class TaskStatusControllerTest extends TestCase
 {
     private User $user;
     private TaskStatus $taskStatus;
-    private string $taskStatusId;
-    private string $taskStatusName;
     private string $newTaskStatusName;
 
     protected function setUp(): void
@@ -23,8 +21,6 @@ class TaskStatusControllerTest extends TestCase
         $this->seed(UserSeeder::class);
         $this->user = User::find(1);
         $this->taskStatus = TaskStatus::find(1);
-        $this->taskStatusId = $this->taskStatus->id;
-        $this->taskStatusName = $this->taskStatus->name;
         $this->newTaskStatusName = TaskStatus::make()->get('name');
     }
 
@@ -47,9 +43,7 @@ class TaskStatusControllerTest extends TestCase
         $response = $this->actingAs($this->user)
             ->post(route('task_statuses.store'), ['name' => $this->newTaskStatusName]);
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', [
-            'name' => $this->taskStatusName,
-        ]);
+        $this->assertDatabaseHas('task_statuses', $this->taskStatus->only(['name']));
         $response->assertRedirect();
     }
 
@@ -63,11 +57,11 @@ class TaskStatusControllerTest extends TestCase
     public function testUpdate()
     {
         $response = $this->actingAs($this->user)
-            ->patch(route('task_statuses.update', $this->taskStatus), ['name' => $this->newTaskStatusName]);
+            ->patch(route('task_statuses.update', $this->taskStatus), [
+                'name' => $this->newTaskStatusName,
+            ]);
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseMissing('task_statuses', [
-            'name' => $this->taskStatusName
-        ]);
+        $this->assertDatabaseMissing('task_statuses', $this->taskStatus->only(['name']));
         $this->assertDatabaseHas('task_statuses', [
             'name' => $this->newTaskStatusName,
         ]);
@@ -79,9 +73,7 @@ class TaskStatusControllerTest extends TestCase
         $response = $this->actingAs($this->user)
             ->delete(route('task_statuses.destroy', $this->taskStatus));
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseMissing('task_statuses', [
-            'id' => $this->taskStatusId
-        ]);
+        $this->assertDatabaseMissing('task_statuses', $this->taskStatus->only(['id']));
         $response->assertRedirect();
     }
 }

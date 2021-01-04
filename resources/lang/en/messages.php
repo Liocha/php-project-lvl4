@@ -11,5 +11,8 @@ return [
             'deleted' => ':subject is currently in use!',
         ]
 
+    ],
+    'alert' => [
+        'confirm' => 'Are you sure?'
     ]
 ];

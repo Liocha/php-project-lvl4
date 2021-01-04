@@ -18,19 +18,11 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::middleware(['auth'])->group(function () {
-    Route::resource('tasks', TaskController::class)->except(['index', 'show']);
-    Route::resource('task_statuses', TaskStatusController::class)->except(['index', 'show']);
-    Route::resource('labels', LabelController::class)->except(['show', 'index']);
-    Route::resource('tasks.comments', CommentController::class)->shallow()->only([
-        'store', 'destroy'
-    ]);
-});
-
-Route::resource('tasks', TaskController::class)->only(['index', 'show']);
-Route::resource('task_statuses', TaskStatusController::class)->only(['index']);
-Route::resource('labels', LabelController::class)->only(['index']);
-
+Route::resource('tasks', TaskController::class);
+Route::resource('task_statuses', TaskStatusController::class);
+Route::resource('labels', LabelController::class);
+Route::resource('tasks.comments', CommentController::class)->shallow();
 Auth::routes();

@@ -69,7 +69,7 @@
             <td>
                 @if($task->created_by_id == Auth::id())
                 <a href="{{route('tasks.destroy', $task)}}"
-                   data-confirm="Вы уверены?"
+                   data-confirm="{{ __('messages.alert.confirm') }}"
                    data-method="delete"
                    rel="nofollow"
                    class="btn btn-danger btn-sm">

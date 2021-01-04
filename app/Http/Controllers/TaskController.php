@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class TaskController extends Controller
 {
@@ -23,8 +24,13 @@ class TaskController extends Controller
     public function index(): View
     {
         $tasks = QueryBuilder::for(Task::class)
-            ->allowedFilters(['status_id', 'created_by_id', 'assigned_to_id'])
+            ->allowedFilters([
+                AllowedFilter::exact('status_id'),
+                AllowedFilter::exact('created_by_id'),
+                AllowedFilter::exact('assigned_to_id')
+            ])
             ->get();
+
         $taskStatuses = TaskStatus::all();
         $users = User::all();
         $acviteFilters = optional(request()->get('filter'));
@@ -45,6 +51,7 @@ class TaskController extends Controller
             'name' => "required|string|unique:tasks",
             'description' => 'nullable|string',
             'assigned_to_id' => 'nullable|exists:users,id',
+            'status_id' => 'required|exists:task_statuses,id',
             'labels.*' => 'exists:labels,id'
         ]);
         $task = new Task();
@@ -69,8 +76,8 @@ class TaskController extends Controller
         $taskStatuses = TaskStatus::all();
         $labels = Label::all();
         $users = User::all();
-        $taskLables = $task->labels->modelKeys();
-        return view('task.edit', compact('task', 'taskStatuses', 'users', 'labels', 'taskLables'));
+        $taskLabels = $task->labels->modelKeys();
+        return view('task.edit', compact('task', 'taskStatuses', 'users', 'labels', 'taskLabels'));
     }
 
     public function update(Request $request, Task $task): RedirectResponse

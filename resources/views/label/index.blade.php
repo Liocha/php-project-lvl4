@@ -29,7 +29,7 @@
             @auth
                 <td>
                     <a href="{{route('labels.destroy', $label)}}"
-                       data-confirm="Вы уверены?"
+                       data-confirm="{{ __('messages.alert.confirm') }}"
                        data-method="delete"
                        rel="nofollow"
                        class="btn btn-danger btn-sm">

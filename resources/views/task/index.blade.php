@@ -13,7 +13,7 @@
                         'placeholder' => __('task.search_form.status')
                     ],
                     __('task.search_form.status'),
-                    $acviteFilters['status_id'],
+                    $activeFilters['status_id'],
                     false
                 )}}
                 {{ Form::bsSelect('filter[created_by_id]',
@@ -23,7 +23,7 @@
                         'placeholder' => __('task.search_form.creator')
                     ],
                     __('task.search_form.creator'),
-                    $acviteFilters['created_by_id'],
+                    $activeFilters['created_by_id'],
                     false
                 )}}
                 {{ Form::bsSelect('filter[assigned_to_id]',
@@ -33,7 +33,7 @@
                         'placeholder' => __('task.search_form.assignee')
                     ],
                     __('task.search_form.assignee'),
-                    $acviteFilters['assigned_to_id'],
+                    $activeFilters['assigned_to_id'],
                     false
                 )}}
                 {{ Form::bsBtnSubmit(__('task.search_form.apply')) }}

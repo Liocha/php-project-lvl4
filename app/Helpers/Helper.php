@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use Request;
+
 class Helper
 {
 
@@ -9,7 +11,7 @@ class Helper
 
     public static function getActivClass(string $linkRouteNane): string
     {
-        $currentRouteName = \Request::route()->getName();
+        $currentRouteName = Request::route()->getName();
         return $currentRouteName == $linkRouteNane ? 'active' : '';
     }
 
@@ -18,9 +20,9 @@ class Helper
         self::$errors = $errors;
     }
 
-    public static function getErrorClass(string $inputNane): ?string
+    public static function getErrorClass(string $inputName): ?string
     {
-        return self::$errors->has($inputNane) ? ' is-invalid' : null;
+        return self::$errors->has($inputName) ? ' is-invalid' : null;
     }
 }
 

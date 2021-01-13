@@ -24,7 +24,6 @@ class TaskSeeder extends Seeder
 
         Task::factory()->count(5)->state(new Sequence(...$data))->create()
             ->each(function (Task $task) use ($labels): void {
-                ;
                 $task->labels()->attach($labels->random(rand(1, 5)));
             });
     }

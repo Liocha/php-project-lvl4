@@ -33,8 +33,8 @@ class TaskController extends Controller
 
         $taskStatuses = TaskStatus::all();
         $users = User::all();
-        $acviteFilters = optional(request()->get('filter'));
-        return view('task.index', compact('tasks', 'users', 'taskStatuses', 'acviteFilters'));
+        $activeFilters = optional(request()->get('filter'));
+        return view('task.index', compact('tasks', 'users', 'taskStatuses', 'activeFilters'));
     }
 
     public function create(): View
@@ -49,7 +49,7 @@ class TaskController extends Controller
     {
         $request->validate([
             'name' => "required|string|unique:tasks",
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|required',
             'assigned_to_id' => 'nullable|exists:users,id',
             'status_id' => 'required|exists:task_statuses,id',
             'labels.*' => 'exists:labels,id'

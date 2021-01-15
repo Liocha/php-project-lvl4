@@ -16,17 +16,10 @@
     </ul>
     <h2 class="mb-2 mt-5">{{__('task.comments')}}</h2>
     @auth
-    <form method="post" action="{{ route('tasks.comments.store', $task)}}" accept-charset="UTF-8" class="w-50">
-        @csrf
-        <div class="form-group">
-            <label for="description">{{ __('task.comment_content')}}</label>
-            <textarea class="form-control @error('body') is-invalid @enderror" name="body" cols="50" rows="10" id="content">{{ old('body') }}</textarea>
-            @error('body')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-        <input class="btn btn-primary" type="submit" value="{{ __('task.btn.comment_create')}}">
-    </form>
+    {{ Form::open(['route' => ['tasks.comments.store', $task], 'class' => 'w-50']) }}
+        {{ Form::bsTextarea('body', old('body'), ['id' => 'content'], __('task.comment_content')) }}
+        {{ Form::bsBtnSubmit( __('task.btn.comment_create')) }}
+    {{ Form::close() }}
     @endauth
     @foreach ($comments as $comment)
         <div class="mt-2">

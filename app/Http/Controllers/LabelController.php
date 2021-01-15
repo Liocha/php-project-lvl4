@@ -35,7 +35,7 @@ class LabelController extends Controller
         ]);
 
         Label::create($request->all());
-        flash(__('messages.flash.success.added', ['subject' => 'Label']))->success();
+        flash(__('messages.flash.success.added', ['subject' => __('label.subject')]))->success();
         return redirect()->route('labels.index');
     }
 
@@ -58,18 +58,18 @@ class LabelController extends Controller
         $label->fill($request->all());
         $label->save();
 
-        flash(__('messages.flash.success.changed', ['subject' => 'Label']))->success();
+        flash(__('messages.flash.success.changed', ['subject' => __('label.subject')]))->success();
         return redirect()->route('labels.index');
     }
 
     public function destroy(Label $label): RedirectResponse
     {
         if ($label->tasks()->exists()) {
-            flash(__('messages.flash.error.deleted', ['subject' => 'Label']))->error();
+            flash(__('messages.flash.error.deleted', ['subject' => __('label.subject')]))->error();
             return redirect()->back();
         }
         $label->delete();
-        flash(__('messages.flash.success.deleted', ['subject' => 'Label']))->success();
+        flash(__('messages.flash.success.deleted', ['subject' => __('label.subject')]))->success();
         return redirect()->route('labels.index');
     }
 }

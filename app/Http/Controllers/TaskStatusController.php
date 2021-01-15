@@ -33,7 +33,7 @@ class TaskStatusController extends Controller
         ]);
 
         TaskStatus::create($request->all());
-        flash(__('messages.flash.success.added', ['subject' => 'Status']))->success();
+        flash(__('messages.flash.success.added', ['subject' => __('taskStatus.subject')]))->success();
         return redirect()->route('task_statuses.index');
     }
 
@@ -54,19 +54,19 @@ class TaskStatusController extends Controller
 
         $taskStatus->fill($request->all());
         $taskStatus->save();
-        flash(__('messages.flash.success.changed', ['subject' => 'Status']))->success();
+        flash(__('messages.flash.success.changed', ['subject' => __('taskStatus.subject')]))->success();
         return redirect()->route('task_statuses.index');
     }
 
     public function destroy(TaskStatus $taskStatus): RedirectResponse
     {
         if ($taskStatus->tasks()->exists()) {
-            flash(__('messages.flash.error.deleted', ['subject' => 'Status']))->error();
+            flash(__('messages.flash.error.deleted', ['subject' => __('taskStatus.subject')]))->error();
             return redirect()->back();
         }
 
         $taskStatus->delete();
-        flash(__('messages.flash.success.deleted', ['subject' => 'Status']))->success();
+        flash(__('messages.flash.success.deleted', ['subject' => __('taskStatus.subject')]))->success();
         return redirect()->route('task_statuses.index');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'subject' => 'Label',
     'title' => 'Labels',
     'id' => 'Id',
     'name' => 'Name',

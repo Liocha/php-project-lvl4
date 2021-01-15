@@ -4,7 +4,7 @@
 <main class="container py-4">
     <h1 class="mb-5">{{ __('label.title') }}</h1>
     @auth
-    <div class="row">
+    <div class="row pl-3">
         {{ link_to_route('labels.create', __('label.btn.add_new'), [],  ["class" => "btn btn-primary mr-auto"]) }}
     </div>
     @endauth

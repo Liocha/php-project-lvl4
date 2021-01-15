@@ -59,7 +59,7 @@ class TaskController extends Controller
         $task->fill($request->all());
         $task->save();
         $task->labels()->sync($request->input('labels'));
-        flash(__('messages.flash.success.added', ['subject' => 'Task']))->success();
+        flash(__('messages.flash.success.added', ['subject' => __('task.subject')]))->success();
         return redirect()->route('tasks.index');
     }
 
@@ -97,7 +97,7 @@ class TaskController extends Controller
         $task->fill($request->all());
         $task->save();
         $task->labels()->sync($request->input('labels'));
-        flash(__('messages.flash.success.changed', ['subject' => 'Task']))->success();
+        flash(__('messages.flash.success.changed', ['subject' => __('task.subject')]))->success();
         return redirect()->route('tasks.index');
     }
 
@@ -106,7 +106,7 @@ class TaskController extends Controller
         $task->labels()->detach();
         $task->comments()->delete();
         $task->delete();
-        flash(__('messages.flash.success.deleted', ['subject' => 'Task']))->success();
+        flash(__('messages.flash.success.deleted', ['subject' => __('task.subject')]))->success();
         return redirect()->route('tasks.index');
     }
 }

@@ -3,7 +3,7 @@
 @section('content')
 <main class="container py-4">
     <h1 class="mb-5">{{ __('task.title') }}</h1>
-    <div class="row">
+    <div class="row p-3">
         <div>
             {{ Form::open(['route' => ['tasks.index'], 'method' => 'get', 'class' => 'form-inline']) }}
                 {{ Form::bsSelect('filter[status_id]',
@@ -12,9 +12,9 @@
                         'class' => 'form-control mr-2',
                         'placeholder' => __('task.search_form.status')
                     ],
-                    __('task.search_form.status'),
+                    false,
                     $activeFilters['status_id'],
-                    false
+
                 )}}
                 {{ Form::bsSelect('filter[created_by_id]',
                     $users,
@@ -22,9 +22,9 @@
                         'class' => 'form-control mr-2',
                         'placeholder' => __('task.search_form.creator')
                     ],
-                    __('task.search_form.creator'),
+                    false,
                     $activeFilters['created_by_id'],
-                    false
+
                 )}}
                 {{ Form::bsSelect('filter[assigned_to_id]',
                     $users,
@@ -32,9 +32,9 @@
                         'class' => 'form-control mr-2',
                         'placeholder' => __('task.search_form.assignee')
                     ],
-                    __('task.search_form.assignee'),
+                    false,
                     $activeFilters['assigned_to_id'],
-                    false
+
                 )}}
                 {{ Form::bsBtnSubmit(__('task.search_form.apply')) }}
             {{ Form::close() }}

@@ -4,7 +4,7 @@
 <main class="container py-4">
     <h1 class="mb-5">{{ __('taskStatus.title') }}</h1>
     @auth
-    <div class="row">
+    <div class="row pl-3">
         {{ link_to_route('task_statuses.create',  __('taskStatus.btn.add_new'), [],  ["class" => "btn btn-primary"]) }}
     </div>
     @endauth

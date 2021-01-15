@@ -26,7 +26,7 @@ class CommentController extends Controller
         $comment->task()->associate($task);
         $comment->creator()->associate(Auth::user());
         $comment->save();
-        flash('Your comment has been published successfully')->success();
+        flash(__('messages.flash.success.added', ['subject' => 'Comment']))->success();
         return redirect()->route('tasks.show', $task);
     }
 
